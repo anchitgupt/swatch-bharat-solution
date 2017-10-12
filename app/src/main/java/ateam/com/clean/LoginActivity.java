@@ -62,6 +62,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
 
+        if(user!=null){
+            startActivity(new Intent(this, MainScreen.class));
+            finish();
+        }
+
     }
 
     @Override
@@ -78,8 +83,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainScreen.class));
+                                finish();
                                 Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
                                 alert.dismiss();
+
                             }
                         })
                         .addOnFailureListener(this, new OnFailureListener() {
@@ -134,12 +141,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-        if(user!=null) {
-            finish();
-        }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -163,4 +165,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return false;}
         return true;
     }
+
 }
