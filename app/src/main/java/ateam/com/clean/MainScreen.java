@@ -1,6 +1,7 @@
 package ateam.com.clean;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MainScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -105,6 +109,17 @@ public class MainScreen extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            try{
+                ArrayList<Uri> uris = new ArrayList<Uri>();
+                Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+                sendIntent.setType("application/*");
+                uris.add(Uri.fromFile(new File(getApplicationInfo().publicSourceDir)));
+                sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+                startActivity(Intent.createChooser(sendIntent, "Share APK via"));
+
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
 
         } else if (id == R.id.nav_send) {
 

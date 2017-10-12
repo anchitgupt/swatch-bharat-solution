@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -68,31 +69,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(view == buttonLogin){
             String pass =editTextPassword.getText().toString();
             String email=editTextEmail.getText().toString().trim();
-            alert.setMessage("Signing In");
-            alert.show();
-            auth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
+            if(checkNull()) {
+                alert.setMessage("Signing In");
+                alert.show();
+                auth.signInWithEmailAndPassword(email, pass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(LoginActivity.this, MainScreen.class));
                                 Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
                                 alert.dismiss();
-                        }
-                    })
-                    .addOnFailureListener(this, new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(LoginActivity.this, "ERROR:"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                            alert.dismiss();
-                        }
-                    });
+                            }
+                        })
+                        .addOnFailureListener(this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(LoginActivity.this, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                alert.dismiss();
+                            }
+                        });
+            }
         }
 
         if(view == textViewLogin){
             String email=editTextEmail.getText().toString().trim();
             if(email.isEmpty()) {
                 editTextEmail.setError("Enter Email here First");
+                editTextEmail.setFocusable(true);
             }
             else {
                 alert.setMessage("Sending Password reset Mail");
@@ -116,9 +120,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         });
             }
 
-            if(view == textViewRegister) {
-                startActivity(new Intent(this, MainActivity.class));
-            }
+
+        }
+        if(view == textViewRegister) {
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
@@ -147,5 +152,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkNull() {
+        if(TextUtils.isEmpty(editTextEmail.getText())){
+            editTextEmail.setError("Enter E-Mail");
+            return false;}
+        if(TextUtils.isEmpty(editTextPassword.getText())){
+            editTextPassword.setError("Enter Password");
+            return false;}
+        return true;
     }
 }

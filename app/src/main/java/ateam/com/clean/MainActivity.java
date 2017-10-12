@@ -1,5 +1,6 @@
 package ateam.com.clean;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +26,14 @@ import ateam.com.clean.Data.UserData;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText editTextUsername,editTextEmail,editTextPassword, editTextDate;
+    EditText editTextUsername,editTextEmail,editTextPassword, editTextPhone;
     Button buttonRegister;
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
     TextView textViewLogin;
+    ProgressDialog alert;
+    Spinner spinnerCity, spinnerState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextUsername = (EditText)findViewById(R.id.editTextUsername);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        editTextDate = (EditText) findViewById(R.id.editTextDate);
+        editTextPhone = (EditText) findViewById(R.id.editTextDate);
         buttonRegister = (Button)findViewById(R.id.buttonRegister);
         textViewLogin = (TextView) findViewById(R.id.textViewLogin);
+        spinnerCity = (Spinner) findViewById(R.id.spinnerCity);
+        spinnerState = (Spinner) findViewById(R.id.spinnerState);
+
+        alert = new ProgressDialog(this,R.style.Custom);
 
         textViewLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
@@ -57,17 +65,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         if(view == buttonRegister) {
             String username = editTextUsername.getText().toString().trim();
             String pass = editTextPassword.getText().toString();
             String email = editTextEmail.getText().toString().trim();
-            String date = editTextDate.getText().toString().trim();
+            String date = editTextPhone.getText().toString().trim();
+            String state = spinnerState.getSelectedItem().toString().trim();
+            String city = spinnerCity.getSelectedItem().toString().trim();
+
             if (checkNull()) {
 
                 final String id = reference.push().getKey();
 
-                final UserData userData = new UserData(username, date, "", "", email);
+                final UserData userData = new UserData(username, date, city, state, email);
 
+                alert.setMessage("Registering...");
+                alert.show();
                 auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this,
                         new OnCompleteListener<AuthResult>() {
                             @Override
@@ -84,7 +98,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                         if (task.isSuccessful()) {
-                                                                            Toast.makeText(MainActivity.this, "Email Verified", Toast.LENGTH_SHORT).show();
+                                                                            alert.dismiss();
+                                                                            Toast.makeText(MainActivity.this, "Email Verification Sent," +
+                                                                                    "Check your E-Mail to Verify your Account", Toast.LENGTH_LONG).show();
                                                                             startActivity(new Intent(MainActivity.this, MainScreen.class));
                                                                         }
                                                                     }
@@ -93,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                                     @Override
                                                                     public void onFailure(@NonNull Exception e) {
                                                                         Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                        alert.dismiss();
                                                                     }
                                                                 });
                                                     }
@@ -102,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                     new OnFailureListener() {
                                                         @Override
                                                         public void onFailure(@NonNull Exception e) {
+                                                            alert.dismiss();
                                                             Toast.makeText(MainActivity.this, "Data Not " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
@@ -114,11 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        alert.dismiss();
                                     }
                                 });
-
-            }
-            else {
 
             }
 
@@ -131,16 +147,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean checkNull() {
         if(TextUtils.isEmpty(editTextUsername.getText())){
-            editTextUsername.setError("Enter");
+            editTextUsername.setError("Enter Name");
             return false;}
         if(TextUtils.isEmpty(editTextEmail.getText())){
-            editTextEmail.setError("Enter");
+            editTextEmail.setError("Enter E-Mail");
             return false;}
         if(TextUtils.isEmpty(editTextPassword.getText())){
-            editTextPassword.setError("Enter");
+            editTextPassword.setError("Enter Password");
             return false;}
-        if(TextUtils.isEmpty(editTextDate.getText())){
-            editTextDate.setError("Enter");
+        if(TextUtils.isEmpty(editTextPhone.getText())){
+            editTextPhone.setError("Enter Age");
             return false;}
         return true;
     }

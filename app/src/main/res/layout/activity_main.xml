@@ -97,12 +97,12 @@
                     android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/editTextDate"
-                        android:hint="Enter date"
+                        android:hint="Enter Phone Number"
                         android:drawableLeft="@mipmap/date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="date" />
+                        android:inputType="phone" />
                 </android.support.design.widget.TextInputLayout>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:layout_marginTop="10dp"
-                        android:entries="@array/india"
+                        android:entries="@array/city"
                         android:minWidth="2dp"
                         android:spinnerMode="dialog">
 

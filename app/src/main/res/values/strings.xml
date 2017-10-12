@@ -39,6 +39,9 @@
         <item>West Bengal</item>
 
     </string-array>
+    <string-array name="city">
+        <item>Moradabad</item>
+    </string-array>
     <string name="title_activity_main_screen">MainScreen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
