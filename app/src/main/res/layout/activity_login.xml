@@ -94,6 +94,7 @@
                     android:text="New User? Register Here"
                     android:textColor="#757575"
                     android:textSize="18sp" />
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

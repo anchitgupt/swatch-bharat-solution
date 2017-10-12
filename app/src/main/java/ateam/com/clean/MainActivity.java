@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
-    TextView textViewRegister;
+    TextView textViewLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
         editTextDate = (EditText) findViewById(R.id.editTextDate);
         buttonRegister = (Button)findViewById(R.id.buttonRegister);
-        textViewRegister = (TextView) findViewById(R.id.textViewRegister);
-        textViewRegister.setOnClickListener(this);
+        textViewLogin = (TextView) findViewById(R.id.textViewLogin);
+
+        textViewLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
 
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
+        if(user!=null){
+            startActivity(new Intent(this, MainScreen.class));
+        }
 
     }
 
@@ -57,45 +62,86 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String pass = editTextPassword.getText().toString();
             String email = editTextEmail.getText().toString().trim();
             String date = editTextDate.getText().toString().trim();
-            final String id = reference.push().getKey();
+            if (checkNull()) {
 
-            final UserData userData = new UserData(username, date, "", "", email);
+                final String id = reference.push().getKey();
 
-            auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this,
-                    new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                reference.child(id).setValue(userData).addOnCompleteListener(MainActivity.this,
-                                        new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        })
-                                        .addOnFailureListener(MainActivity.this,
-                                                new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(MainActivity.this, "Data Not " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                final UserData userData = new UserData(username, date, "", "", email);
+
+                auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this,
+                        new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    reference.child(id).setValue(userData).addOnCompleteListener(MainActivity.this,
+                                            new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
+                                                        user.sendEmailVerification()
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            Toast.makeText(MainActivity.this, "Email Verified", Toast.LENGTH_SHORT).show();
+                                                                            startActivity(new Intent(MainActivity.this, MainScreen.class));
+                                                                        }
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
                                                     }
-                                                });
-                            }
-                        }
-                    })
-                    .addOnFailureListener(this,
-                            new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(MainActivity.this,
+                                                    new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(MainActivity.this, "Data Not " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
                                 }
-                            });
+
+                            }
+                        })
+                        .addOnFailureListener(this,
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(MainActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+            }
+            else {
+
+            }
+
         }
-        if( view ==textViewRegister){
+        if( view == textViewLogin){
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+    }
+
+    private boolean checkNull() {
+        if(TextUtils.isEmpty(editTextUsername.getText())){
+            editTextUsername.setError("Enter");
+            return false;}
+        if(TextUtils.isEmpty(editTextEmail.getText())){
+            editTextEmail.setError("Enter");
+            return false;}
+        if(TextUtils.isEmpty(editTextPassword.getText())){
+            editTextPassword.setError("Enter");
+            return false;}
+        if(TextUtils.isEmpty(editTextDate.getText())){
+            editTextDate.setError("Enter");
+            return false;}
+        return true;
     }
 }
