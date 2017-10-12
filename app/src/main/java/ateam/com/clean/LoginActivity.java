@@ -1,6 +1,8 @@
 package ateam.com.clean;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -59,6 +61,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
+
+                            if(!user.isEmailVerified()){
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Toast.makeText(LoginActivity.this, "Email Verified", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(LoginActivity.this, "ERROR: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                            else{
+                                Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     })
                     .addOnFailureListener(this, new OnFailureListener() {
@@ -70,7 +93,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if(view == textViewLogin){
+            String email=editTextEmail.getText().toString().trim();
+            if(email.isEmpty())
+                editTextEmail.setError("Enter Email here First");
+            else
+            auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                       if(task.isSuccessful()){
+                           Toast.makeText(LoginActivity.this, "Mail Sent to your email"+user.getEmail(), Toast.LENGTH_SHORT).show();
+                           auth.signOut();
+                       }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginActivity.this, "ERROR: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+            //startActivity(new Intent(this, MainActivity.class));
         }
     }
 }
