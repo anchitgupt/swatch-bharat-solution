@@ -47,7 +47,7 @@
 
                     <EditText
                         android:id="@+id/editTextUsername"
-                        android:hint="Enter Username"
+                        android:hint="Enter Name"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/user"
