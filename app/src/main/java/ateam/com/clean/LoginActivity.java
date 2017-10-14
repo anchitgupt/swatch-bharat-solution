@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.TelecomManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -36,6 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     FirebaseUser user;
     DatabaseReference reference;
     ProgressDialog alert;
+
 
 
     @Override
@@ -71,21 +76,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+
         if(view == buttonLogin){
             String pass =editTextPassword.getText().toString();
             String email=editTextEmail.getText().toString().trim();
-            if(checkNull()) {
+
+            if(checkNull() && isValidMail(email)) {
                 alert.setMessage("Signing In");
                 alert.show();
+
                 auth.signInWithEmailAndPassword(email, pass)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainScreen.class));
-                                finish();
-                                Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
-                                alert.dismiss();
+                                if(task.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
+                                    alert.dismiss();
+                                    startActivity(new Intent(LoginActivity.this, MainScreen.class));
+                                    Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                                else
+                                    Toast.makeText(LoginActivity.this, "ERROR: "+"USER LOGIN FAILURE", Toast.LENGTH_SHORT).show();
+
 
                             }
                         })
@@ -100,7 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if(view == textViewLogin){
-            String email=editTextEmail.getText().toString().trim();
+            final String email=editTextEmail.getText().toString().trim();
             if(email.isEmpty()) {
                 editTextEmail.setError("Enter Email here First");
                 editTextEmail.setFocusable(true);
@@ -113,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     alert.dismiss();
-                                    Toast.makeText(LoginActivity.this, "Mail Sent to your email" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Mail Sent to your email" + email, Toast.LENGTH_SHORT).show();
                                     auth.signOut();
                                 }
                             }
@@ -135,25 +148,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return true;
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.logout:
-                auth.signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        finish();
     }
 
     private boolean checkNull() {
@@ -164,6 +160,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             editTextPassword.setError("Enter Password");
             return false;}
         return true;
+    }
+    private boolean isValidMail(String email) {
+        boolean check;
+        Pattern p;
+        Matcher m;
+
+        String EMAIL_STRING = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        p = Pattern.compile(EMAIL_STRING);
+
+        m = p.matcher(email);
+        check = m.matches();
+
+        if (!check) {
+            editTextEmail.setError("Not Valid Email");
+        }
+        return check;
     }
 
 }
