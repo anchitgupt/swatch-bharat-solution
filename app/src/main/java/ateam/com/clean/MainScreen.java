@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,16 +24,23 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class MainScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
 
     TextView textViewUserName, textViewUserNameEmail;
     FirebaseAuth auth;
     FirebaseUser user;
+    DatabaseReference reference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,10 @@ public class MainScreen extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users");
+        reference.addValueEventListener(this);
+
+
         if(user == null){
             startActivity(new Intent(this, LoginActivity.class));
         }
@@ -90,6 +102,10 @@ public class MainScreen extends AppCompatActivity
                         }
                     });
         }
+
+        //DatabaseReference d = reference.child(id).getDatabase().getReference();
+        String id  = user.getUid();
+        //DatabaseReference d = reference.child(id).getDatabase().getReference();
 
 
         View header = navigationView.getHeaderView(0);
@@ -181,5 +197,15 @@ public class MainScreen extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
     }
 }

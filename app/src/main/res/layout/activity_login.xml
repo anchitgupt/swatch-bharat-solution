@@ -60,6 +60,7 @@
                         android:layout_marginTop="16dp"
                         android:drawableLeft="@mipmap/lock"
                         android:hint="Password"
+                        android:digits="_,qwertzuiopasdfghjklyxcvbnm,QWERTYUIOPASDFGHJKLZXCVBNM,0123456789"
                         android:inputType="textPassword"
                         android:singleLine="true" />
 

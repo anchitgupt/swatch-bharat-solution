@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                final String id = reference.push().getKey();
+                //final String id = reference.push().getKey();
 
                 final UserData userData = new UserData(username, date, city, state, email);
 
@@ -117,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                     //DBMS Entry is created for the user
-                                    reference.child(id).setValue(userData).addOnCompleteListener(MainActivity.this,
+                                    Log.e("MainActivity",auth.getCurrentUser().getUid());
+
+                                    reference.child(auth.getCurrentUser().getUid()).setValue(userData).addOnCompleteListener(MainActivity.this,
                                             new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -126,9 +128,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         alert.dismiss();
                                                         Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
                                                         user = FirebaseAuth.getInstance().getCurrentUser();
-                                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+
+                                                        /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                                                 .setDisplayName(username).build();
-                                                        user.updateProfile(profileUpdates);
+                                                        user.updateProfile(profileUpdates);*/
+
                                                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
                                                     }
