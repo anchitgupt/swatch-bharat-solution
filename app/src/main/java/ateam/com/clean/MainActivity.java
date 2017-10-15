@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ateam.com.clean.Data.UserData;
-import ateam.com.clean.StateCity.City;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -93,11 +92,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view == buttonRegister) {
             final String username = editTextUsername.getText().toString().trim();
             String pass = editTextPassword.getText().toString().trim();
-            String email = editTextEmail.getText().toString().trim();
+            final String email = editTextEmail.getText().toString().trim();
             String date = editTextPhone.getText().toString().trim();
             String state = spinnerState.getSelectedItem().toString().trim();
             String city = spinnerCity.getSelectedItem().toString().trim();
-
+            final String[] user_id = email.split("@");
             if (checkNull()) {
                 if(date.length() != 10){
                     editTextPhone.setError("Enter Valid 10 digit Phone number");
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //DBMS Entry is created for the user
                                     Log.e("MainActivity",auth.getCurrentUser().getUid());
 
-                                    reference.child(auth.getCurrentUser().getUid()).setValue(userData).addOnCompleteListener(MainActivity.this,
+                                    reference.child(/*auth.getCurrentUser().getUid()*/user_id[0]).setValue(userData).addOnCompleteListener(MainActivity.this,
                                             new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -167,8 +166,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if( view == textViewLogin){
             startActivity(new Intent(this, LoginActivity.class));
         }
-
-
     }
 
     private boolean checkNull() {
@@ -192,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         statere = spinnerState.getSelectedItem().toString();
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
+        /*
+        *Code for to get the city from the URL: https://api.myjson.com/bins/urt55
+        * todo to make the city available locally in the spinner according
+        * to the state selected
+         */
 
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Loading..");

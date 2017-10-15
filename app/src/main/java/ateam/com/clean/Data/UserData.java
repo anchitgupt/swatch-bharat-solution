@@ -25,4 +25,6 @@ public class UserData {
         this.state = state;
         this.e_mail = e_mail;
     }
+
+
 }

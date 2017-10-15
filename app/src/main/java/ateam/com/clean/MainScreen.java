@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +42,7 @@ public class MainScreen extends AppCompatActivity
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class MainScreen extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.addValueEventListener(this);
+
 
 
         if(user == null){
@@ -104,18 +107,20 @@ public class MainScreen extends AppCompatActivity
         }
 
         //DatabaseReference d = reference.child(id).getDatabase().getReference();
-        String id  = user.getUid();
+        //String id  = user.getUid();
         //DatabaseReference d = reference.child(id).getDatabase().getReference();
 
 
         View header = navigationView.getHeaderView(0);
+
         textViewUserName = (TextView) header.findViewById(R.id.textViewUserName);
         textViewUserNameEmail =(TextView) header.findViewById(R.id.textViewUserNameEmail);
+
         if(user.getEmail() != null || user.getDisplayName() != null) {
-            textViewUserName.setText(user.getDisplayName());
             textViewUserNameEmail.setText(user.getEmail());
         }
 
+        reference.addValueEventListener(this);
     }
 
     @Override
@@ -201,7 +206,14 @@ public class MainScreen extends AppCompatActivity
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-
+        String[] user_id = user.getEmail().split("@");
+        dataSnapshot = dataSnapshot.child(user_id[0]);
+        userName = (String) dataSnapshot.child("name").getValue();
+        textViewUserName.setText(userName);
+/*
+        String userName  = String.valueOf(dataSnapshot.child(user_id[0]).child("name"));
+        Log.e("USer",userName);*/
+        Log.e("USer",userName);
     }
 
     @Override
