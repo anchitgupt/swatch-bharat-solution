@@ -116,6 +116,7 @@ public class MainScreen extends AppCompatActivity
         textViewUserName = (TextView) header.findViewById(R.id.textViewUserName);
         textViewUserNameEmail =(TextView) header.findViewById(R.id.textViewUserNameEmail);
 
+
         if(user.getEmail() != null || user.getDisplayName() != null) {
             textViewUserNameEmail.setText(user.getEmail());
         }
@@ -206,10 +207,19 @@ public class MainScreen extends AppCompatActivity
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        String[] user_id = user.getEmail().split("@");
+        String[] user_id = new String[0];
+        try {
+            user_id = user.getEmail().split("@");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         dataSnapshot = dataSnapshot.child(user_id[0]);
         userName = (String) dataSnapshot.child("name").getValue();
         textViewUserName.setText(userName);
+
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(userName).build();
+        user.updateProfile(profileUpdates);
 /*
         String userName  = String.valueOf(dataSnapshot.child(user_id[0]).child("name"));
         Log.e("USer",userName);*/
