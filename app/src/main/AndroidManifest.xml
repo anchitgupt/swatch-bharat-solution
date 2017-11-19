@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +23,18 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:noHistory="true" />
         <activity
             android:name=".MainScreen"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_main_screen"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Report.ReportActivity"
+            android:name=".Report"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_report"
+            android:parentActivityName=".MainScreen"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

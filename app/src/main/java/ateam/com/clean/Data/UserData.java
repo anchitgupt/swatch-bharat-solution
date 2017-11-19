@@ -7,6 +7,7 @@ package ateam.com.clean.Data;
 public class UserData {
 
     String UUID,
+            id,
     name,
     phone,
     city,
@@ -18,13 +19,12 @@ public class UserData {
         this.UUID = UUID;
     }
 
-    public UserData(String name, String phone, String city, String state, String e_mail) {
+    public UserData(String id, String name, String phone, String city, String state, String e_mail) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.city = city;
         this.state = state;
         this.e_mail = e_mail;
     }
-
-
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -17,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +36,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener, View.OnClickListener {
 
+    private static String TAG = "MainScreen";
     TextView textViewUserName, textViewUserNameEmail;
     FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference reference;
     String userName;
+    LinearLayout garbageLayout, pitLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,12 @@ public class MainScreen extends AppCompatActivity
         setContentView(R.layout.activity_main_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        garbageLayout = (LinearLayout) findViewById(R.id.linearLayoutGarbage);
+        pitLayout = (LinearLayout) findViewById(R.id.linearLayoutPit);
+
+        garbageLayout.setOnClickListener(this);
+        pitLayout.setOnClickListener(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +88,10 @@ public class MainScreen extends AppCompatActivity
             startActivity(new Intent(this, LoginActivity.class));
         }
 
-        if(user.getEmail() != null){
+        //TODO Alert Dialog for sending mail
+        /*if(user.getEmail() != null){
         if(!user.isEmailVerified())
+
             user.sendEmailVerification()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -104,7 +114,8 @@ public class MainScreen extends AppCompatActivity
                             Toast.makeText(getApplicationContext(), "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        }
+        }*/
+        Log.e(TAG, "ID: "+user.getDisplayName());
 
         //DatabaseReference d = reference.child(id).getDatabase().getReference();
         //String id  = user.getUid();
@@ -121,7 +132,10 @@ public class MainScreen extends AppCompatActivity
             textViewUserNameEmail.setText(user.getEmail());
         }
 
+
         reference.addValueEventListener(this);
+        garbageLayout.setOnClickListener(this);
+        pitLayout.setOnClickListener(this);
     }
 
     @Override
@@ -223,11 +237,28 @@ public class MainScreen extends AppCompatActivity
 /*
         String userName  = String.valueOf(dataSnapshot.child(user_id[0]).child("name"));
         Log.e("USer",userName);*/
-        Log.e("USer",userName);
+        Log.e("User",userName);
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
+        Toast.makeText(this, "Error: "+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onClick(View view) {
+        if(view == garbageLayout){
+            Toast.makeText(this, "Garbage Layout", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type","garbage");
+            this.startActivity(intent);
+        }
+
+        if(view == pitLayout){
+            Toast.makeText(this, "Pit Layout", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type","pit");
+            this.startActivity(intent);
+        }
     }
 }
