@@ -170,7 +170,6 @@ public class Report extends AppCompatActivity implements ValueEventListener {
                 progressDialog.dismiss();
                 Uri downloadurl = taskSnapshot.getDownloadUrl();
 
-                //progressDialog.setProgress(taskSnapshot.getBytesTransferred()*100/taskSnapshot.getTotalByteCount());
                     /*
                     IssueData class is the class which handles
                      */
