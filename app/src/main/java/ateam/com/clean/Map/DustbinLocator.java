@@ -57,11 +57,8 @@ public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallb
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         latLngFetcherArrayList = new ArrayList<>();
-        /*try {
-            Log.e(TAG, "onCreate: "+this.getPackageManager().getPackageInfo("com.google.android.gms",0).versionName);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }*/
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

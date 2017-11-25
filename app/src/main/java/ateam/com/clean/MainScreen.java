@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -195,12 +196,12 @@ public class MainScreen extends AppCompatActivity
         }
         else if (id == R.id.nav_share) {
             try{
-                ArrayList<Uri> uris = new ArrayList<Uri>();
+                /*ArrayList<Uri> uris = new ArrayList<Uri>();
                 Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-                sendIntent.setType("application/*");
+                sendIntent.setType("application*//*");
                 uris.add(Uri.fromFile(new File(getApplicationInfo().publicSourceDir)));
                 sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-                startActivity(Intent.createChooser(sendIntent, "Share APK via"));
+                startActivity(Intent.createChooser(sendIntent, "Share APK via"));*/
 
             }catch(Exception e){
                 System.out.println(e.getMessage());
@@ -240,7 +241,7 @@ public class MainScreen extends AppCompatActivity
 /*
         String userName  = String.valueOf(dataSnapshot.child(user_id[0]).child("name"));
         Log.e("USer",userName);*/
-        Log.e("User",userName);
+//        Log.e("User",userName);
     }
 
     @Override
@@ -268,13 +269,27 @@ public class MainScreen extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
+                    == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.CAMERA)
+                            == PackageManager.PERMISSION_GRANTED
+                    ) {
                 Log.v(TAG, "Permission is granted");
 
             } else {
 
                 Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
+                ,android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA
+                }, 100);
             }
         } else { //permission is automatically granted on sdk<23 upon installation
             Log.v(TAG, "Permission is granted");
@@ -318,11 +333,25 @@ public class MainScreen extends AppCompatActivity
             } else {
 
                 Log.v(TAG, "Permission is revoked");
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 103);
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 104);
             }
         } else { //permission is automatically granted on sdk<23 upon installation
             Log.v(TAG, "Permission is granted");
             
+        }
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+
+            } else {
+
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 104);
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+
         }
     }
 }

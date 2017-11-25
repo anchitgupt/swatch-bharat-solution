@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,7 +56,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
 
     private static final String TAG = "Report";
     private static String PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
-    private static int CAMERA_REQUEST = 121;
+    private static int CAMERA_REQUEST = 1211;
     String mBundle;
     private StorageReference mStorageref;
     private DatabaseReference mDatabase;
@@ -76,8 +77,12 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.report_recycler);
+
+        /*FirebaseDatabase.getInstance().setPersistenceEnabled(true);*/
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        recyclerView = findViewById(R.id.report_recycler);
         setSupportActionBar(toolbar);
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         /*
@@ -88,7 +93,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,13 +101,12 @@ public class Report extends AppCompatActivity implements ValueEventListener {
                     showGPSDisabledAlertToUser();
                 else {
                     Intent intent = new Intent();
-                    intent.setAction("android.media.action.IMAGE_CAPTURE");
-                    folder = new File(PATH + "/Clean");
+                    intent.setAction("android.media.action.IMAGE_CAPTURE");folder = new File(PATH + "/Clean");
                     if (!folder.exists())
                         folder.mkdir();
                     filename = getFilename();
-                    file = new File(PATH + "/Clean", filename);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                    //Uri uri = FileProvider.getUriForFile(getApplicationContext(), getPackageName()+".fileprovider", file);
+                    //intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(Report.this,getPackageName(),file));
                     startActivityForResult(intent, CAMERA_REQUEST);
                 }
             }
@@ -111,9 +115,14 @@ public class Report extends AppCompatActivity implements ValueEventListener {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference("issue");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().
+                getReference("issue");
+        databaseReference.keepSynced(true);
         //getting the user id created using the email of the user
         user_id = user.getEmail().split("@");
+
         FirebaseDatabase.getInstance().getReference("issue").child(user_id[0]).child(mBundle).addValueEventListener(this);
+        //cacahing the data
 
     }
 
@@ -122,11 +131,11 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Log.e(TAG, "Activity received");
-            storeImageInCloud();
+            storeImageInCloud(data);
         }
     }
 
-    public void storeImageInCloud() {
+    public void storeImageInCloud(Intent data) {
 
         //filenaming in storage
             /*
@@ -145,14 +154,16 @@ public class Report extends AppCompatActivity implements ValueEventListener {
          * and getting the data stored in the storage
          *creating bitmap for the image
          */
-        Bitmap mBitmap;
-        try {
-            mBitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+
+       /* try {
+            mBitmap = BitmapFactory.decodeStream();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
+        Bitmap mBitmap = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream mByteOutputStream = new ByteArrayOutputStream();
-        //Bitmap.createBitmap(mBitmap).compress(Bitmap.CompressFormat.JPEG, 100, mByteOutputStream);
+        Bitmap.createBitmap(mBitmap).compress(Bitmap.CompressFormat.JPEG, 100, mByteOutputStream);
         byte[] bytes = mByteOutputStream.toByteArray();
 
         progressDialog = new ProgressDialog(this);
@@ -222,7 +233,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
         }).addOnFailureListener(this, new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                progressDialog.cancel();
+                progressDialog.dismiss();
                 Toast.makeText(Report.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
