@@ -10,16 +10,28 @@ public class IssueData {
     url,
     location,
     key,
-    type;
+    type,
+    time,
+    desc;
 
     public IssueData() {
     }
 
-    public IssueData(String url, String location, String key, String type) {
+    public IssueData(String url, String location, String key, String type, String time, String desc) {
         this.url = url;
         this.location = location;
         this.key = key;
         this.type = type;
+        this.time = time;
+        this.desc = desc;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     public String getUrl() {

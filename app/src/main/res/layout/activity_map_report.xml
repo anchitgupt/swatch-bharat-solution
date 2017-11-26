@@ -5,12 +5,14 @@
     android:orientation="vertical">
 
     <ImageView
+        android:clickable="true"
+        android:nextFocusDown="@id/dialog_approx_location"
         android:id="@+id/dialog_image_view"
         android:layout_width="match_parent"
         android:layout_height="153dp"
         android:layout_margin="15dp" />
 
-    <TextView
+    <!--<TextView
         android:text="Latitude|Longitude"
         android:layout_margin="10dp"
         android:textSize="18sp"
@@ -23,10 +25,12 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:layout_height="25dp" />-->
 
     <TextView
+        android:layout_gravity="center_horizontal"
         android:text="Approx Location"
+        android:textStyle="bold"
         android:layout_margin="10dp"
         android:textSize="18sp"
         android:padding="5sp"
@@ -35,33 +39,40 @@
 
     <TextView
         android:id="@+id/dialog_approx_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="61dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="25dp" />
+        android:text="--Click here to get Location--"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/dialog_user_location"
+    <TextView
+        android:text="Date"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:paddingTop="7dp"
+        android:id="@+id/dialog_time"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Enter location specifically in short"
         android:singleLine="true" />
 
     <EditText
         android:id="@+id/dialog_des"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="45dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Enter location specifically in short"
+        android:hint="Enter description"
         android:inputType="textLongMessage"
         android:singleLine="false" />
 

@@ -48,9 +48,12 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         issueData = issueDataList.get(position);
         Log.e(TAG, "onBindViewHolder: "+issueData.getUrl() );
         Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
+
         holder.reportKeyValue.setText(issueData.getKey());
         holder.reportLocationValue.setText(issueData.getLocation());
         holder.reportTypeValue.setText(issueData.getType());
+        holder.reportTimeValue.setText(issueData.getTime());
+        holder.reportDescriptionValue.setText(issueData.getDesc());
         holder.reportLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +61,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
             }
         });
+
 
     }
 
@@ -68,7 +72,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView reportKeyValue, reportLocationValue, reportTypeValue;
+        public TextView reportKeyValue, reportLocationValue, reportTypeValue, reportDescriptionValue, reportTimeValue;
         public ImageView reportImageView;
         public LinearLayout reportLinearLayout;
         public CardView cardView;
@@ -79,6 +83,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             reportLocationValue = itemView.findViewById(R.id.report_location_value);
             reportTypeValue = itemView.findViewById(R.id.report_key_type_value);
             reportKeyValue = itemView.findViewById(R.id.report_key_value);
+            reportDescriptionValue = itemView.findViewById(R.id.report_description_value);
+            reportTimeValue = itemView.findViewById(R.id.report_time_value);
             reportLinearLayout = itemView.findViewById(R.id.report_linear);
             cardView = itemView.findViewById(R.id.report_card);
         }
