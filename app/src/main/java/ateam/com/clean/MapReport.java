@@ -130,7 +130,6 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                 e.printStackTrace();
             }
 
-
         }
         if (view == submitButton) {
             if (!b) {
@@ -177,11 +176,6 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
             location = name + "," + address + "," + Html.fromHtml(attributions);
             textLocation.setText(name + "," + address + "," + Html.fromHtml(attributions));
-           /* mViewName.setText(name);
-            mViewAddress.setText(address);
-            mViewAttributions.setText(Html.fromHtml(attributions));*/
-            //issueData = new IssueData(imageURL, textLocation.getText().toString().trim(),key,type);
-
 
         } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             isphotoTaken = true;

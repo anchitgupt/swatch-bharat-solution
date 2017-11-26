@@ -106,12 +106,8 @@ public class Report extends AppCompatActivity implements ValueEventListener {
 
 
     private static final String TAG = "Report";
-    private static final int REQUEST_CODE = 21;
-    private static String PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
-    private static int CAMERA_REQUEST = 1211;
     String mBundle;
-    private StorageReference mStorageref;
-    private DatabaseReference mDatabase;
+
     FirebaseUser user;
     String[] user_id;
     String key;
@@ -120,12 +116,6 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     IssueData issueData;
     List<IssueData> issueDataList;
     LocationManager locationManager;
-    String filename = null;
-    String url, location, time;
-    private ProgressDialog progressDialog;
-    Bitmap mBitmap;
-    ByteArrayOutputStream mByteOutputStream;
-    byte[] bytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +150,6 @@ public class Report extends AppCompatActivity implements ValueEventListener {
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference("issue");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference("issue");
         databaseReference.keepSynced(true);

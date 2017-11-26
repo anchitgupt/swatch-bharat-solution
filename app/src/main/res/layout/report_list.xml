@@ -104,7 +104,6 @@
                     android:id="@+id/report_location_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
                     android:nestedScrollingEnabled="true" />
             </LinearLayout>
             <LinearLayout

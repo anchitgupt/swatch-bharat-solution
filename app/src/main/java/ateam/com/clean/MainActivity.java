@@ -37,11 +37,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ateam.com.clean.Data.User;
 import ateam.com.clean.Data.UserData;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText editTextUsername,editTextEmail,editTextPassword, editTextPhone;
+    EditText editTextUsername, editTextEmail, editTextPassword, editTextPhone;
     Button buttonRegister;
     FirebaseAuth auth;
     FirebaseUser user;
@@ -58,20 +59,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextUsername = (EditText)findViewById(R.id.editTextUsername);
-        editTextEmail = (EditText)findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        editTextPhone = (EditText) findViewById(R.id.editTextDate);
-        buttonRegister = (Button)findViewById(R.id.buttonRegister);
-        textViewLogin = (TextView) findViewById(R.id.textViewLogin);
-        spinnerCity = (Spinner) findViewById(R.id.spinnerCity);
-        spinnerState = (Spinner) findViewById(R.id.spinnerState);
+        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextPhone = findViewById(R.id.editTextDate);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        textViewLogin = findViewById(R.id.textViewLogin);
+        spinnerCity = findViewById(R.id.spinnerCity);
+        spinnerState = findViewById(R.id.spinnerState);
         spinnerState.setOnItemSelectedListener(this);
 
 
-
-        alert = new ProgressDialog(this,R.style.Custom);
-        Log.e("MainActivity","Entered ");
+        alert = new ProgressDialog(this, R.style.Custom);
+        Log.e("MainActivity", "Entered ");
 
         textViewLogin.setOnClickListener(this);
         buttonRegister.setOnClickListener(this);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("users");
 
-        if(user!=null){
+        if (user != null) {
             startActivity(new Intent(this, MainScreen.class));
         }
 
@@ -89,23 +89,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
-        if(view == buttonRegister) {
+        if (view == buttonRegister) {
             final String username = editTextUsername.getText().toString().trim();
             String pass = editTextPassword.getText().toString().trim();
             final String email = editTextEmail.getText().toString().trim();
             String date = editTextPhone.getText().toString().trim();
             String state = spinnerState.getSelectedItem().toString().trim();
             String city = spinnerCity.getSelectedItem().toString().trim();
+            User userN = new User();
+            final String userID = userN.getUserID(email);
             final String[] user_id = email.split("@");
             if (checkNull()) {
-                if(date.length() != 10){
+                if (date.length() != 10) {
                     editTextPhone.setError("Enter Valid 10 digit Phone number");
                     return;
                 }
 
                 //final String id = reference.push().getKey();
 
-                final UserData userData = new UserData(user_id[0],username, date, city, state, email);
+                final UserData userData = new UserData(user_id[0], username, date, city, state, email);
 
                 alert.setMessage("Registering...");
                 alert.show();
@@ -115,10 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                    //DBMS Entry is created for the user
-                                    Log.e("MainActivity",auth.getCurrentUser().getUid());
-
-                                    reference.child(/*auth.getCurrentUser().getUid()*/user_id[0]).setValue(userData).addOnCompleteListener(MainActivity.this,
+                                    //DBMS Entry is created for the user
+                                    Log.e("MainActivity", auth.getCurrentUser().getUid());
+                                    reference.child(userID).setValue(userData).addOnCompleteListener(MainActivity.this,
                                             new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -127,13 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                         alert.dismiss();
                                                         Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
                                                         user = FirebaseAuth.getInstance().getCurrentUser();
-
-                                                        /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                                .setDisplayName(username).build();
-                                                        user.updateProfile(profileUpdates);*/
-
                                                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
                                                     }
                                                 }
                                             })
@@ -162,25 +157,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         //Register Ends
-
-        if( view == textViewLogin){
+        if (view == textViewLogin) {
             startActivity(new Intent(this, LoginActivity.class));
         }
     }
 
     private boolean checkNull() {
-        if(TextUtils.isEmpty(editTextUsername.getText())){
+        if (TextUtils.isEmpty(editTextUsername.getText())) {
             editTextUsername.setError("Enter Name");
-            return false;}
-        if(TextUtils.isEmpty(editTextEmail.getText())){
+            return false;
+        }
+        if (TextUtils.isEmpty(editTextEmail.getText())) {
             editTextEmail.setError("Enter E-Mail");
-            return false;}
-        if(TextUtils.isEmpty(editTextPassword.getText())){
+            return false;
+        }
+        if (TextUtils.isEmpty(editTextPassword.getText())) {
             editTextPassword.setError("Enter Password");
-            return false;}
-        if(TextUtils.isEmpty(editTextPhone.getText())){
+            return false;
+        }
+        if (TextUtils.isEmpty(editTextPhone.getText())) {
             editTextPhone.setError("Enter Phone Number");
-            return false;}
+            return false;
+        }
         return true;
     }
 
@@ -191,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         /*
         *Code for to get the city from the URL: https://api.myjson.com/bins/urt55
-        * todo to make the city available locally in the spinner according
+        *
         * to the state selected
          */
 
@@ -206,9 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             String[] str = new String[response.length()];
                             list = new ArrayList<>();
-                            int k=0;
+                            int k = 0;
                             for (int i = 0; i < response.length(); i++) {
-                                if(response.getJSONObject(i).getString("state").contentEquals(statere)) {
+                                if (response.getJSONObject(i).getString("state").contentEquals(statere)) {
                                     str[i] = response.getJSONObject(i).getString("city_name");
                                     //Log.e("City",str[i]);
                                     list.add(str[i]);
@@ -217,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             spinnerCity.setAdapter(
                                     new ArrayAdapter<String>
-                                            (MainActivity.this,R.layout.support_simple_spinner_dropdown_item,list));
+                                            (MainActivity.this, R.layout.support_simple_spinner_dropdown_item, list));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -228,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "ERROR: "+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "ERROR: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
         requestQueue.add(jsonArrayRequest);

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telecom.TelecomManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "LoginActivity";
     EditText editTextEmail,editTextPassword;
     Button buttonLogin;
     TextView textViewLogin, textViewRegister;
@@ -49,12 +51,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
 
-        editTextEmail = (EditText)findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        buttonLogin = (Button)findViewById(R.id.buttonLogin);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
 
-        textViewLogin = (TextView)findViewById(R.id.textViewLogin);
-        textViewRegister = (TextView) findViewById(R.id.textViewRegister);
+        textViewLogin = findViewById(R.id.textViewLogin);
+        textViewRegister = findViewById(R.id.textViewRegister);
 
         buttonLogin.setOnClickListener(this);
         textViewLogin.setOnClickListener(this);
@@ -105,7 +107,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .addOnFailureListener(this, new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(LoginActivity.this, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "onFailure: "+e.getMessage() );
                                 alert.dismiss();
                             }
                         });
@@ -135,7 +138,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 alert.dismiss();
-                                Toast.makeText(LoginActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "onFailure: "+e.getMessage() );
+                                //Toast.makeText(LoginActivity.this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -170,7 +174,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         p = Pattern.compile(EMAIL_STRING);
-
         m = p.matcher(email);
         check = m.matches();
 

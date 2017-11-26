@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import ateam.com.clean.Data.User;
 import ateam.com.clean.Map.DustbinLocator;
 
 public class MainScreen extends AppCompatActivity
@@ -78,7 +79,6 @@ public class MainScreen extends AppCompatActivity
         });
 
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -92,8 +92,7 @@ public class MainScreen extends AppCompatActivity
         reference = FirebaseDatabase.getInstance().getReference("users");
 
 
-
-        if(user == null){
+        if (user == null) {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
@@ -124,7 +123,7 @@ public class MainScreen extends AppCompatActivity
                         }
                     });
         }*/
-        Log.e(TAG, "ID: "+user.getDisplayName());
+//        Log.e(TAG, "ID: " + user.getDisplayName(),new Throwable("CANT FIND USERNAME"));
 
         //DatabaseReference d = reference.child(id).getDatabase().getReference();
         //String id  = user.getUid();
@@ -137,7 +136,7 @@ public class MainScreen extends AppCompatActivity
         textViewUserNameEmail = header.findViewById(R.id.textViewUserNameEmail);
 
 
-        if(user.getEmail() != null || user.getDisplayName() != null) {
+        if (user.getEmail() != null || user.getDisplayName() != null) {
             textViewUserNameEmail.setText(user.getEmail());
         }
 
@@ -175,8 +174,9 @@ public class MainScreen extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id  == R.id.logout){
+        if (id == R.id.logout) {
             auth.signOut();
+            user = null;
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -190,31 +190,38 @@ public class MainScreen extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if(id == R.id.menu_item_dustbin) {
+        if (id == R.id.menu_item_dustbin) {
             this.startActivity(new Intent(this, DustbinLocator.class));
-        }
-        else if (id == R.id.nav_share) {
-            try{
+        } else if (id == R.id.nav_share) {
+            try {
                 /*ArrayList<Uri> uris = new ArrayList<Uri>();
                 Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
                 sendIntent.setType("application*//*");
                 uris.add(Uri.fromFile(new File(getApplicationInfo().publicSourceDir)));
                 sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
                 startActivity(Intent.createChooser(sendIntent, "Share APK via"));*/
+                Toast.makeText(this, "Will Available soon", Toast.LENGTH_SHORT).show();
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
         } else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "Will Available soon", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.menu_item_grabage) {
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "garbage");
+            this.startActivity(intent);
+        } else if (id == R.id.menu_item_pit) {
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "pit");
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     @Override
@@ -224,13 +231,9 @@ public class MainScreen extends AppCompatActivity
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        String[] user_id = new String[0];
-        try {
-            user_id = user.getEmail().split("@");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        dataSnapshot = dataSnapshot.child(user_id[0]);
+
+        User userN = new User();
+        dataSnapshot = dataSnapshot.child(userN.getUserID(user.getEmail()));
         userName = (String) dataSnapshot.child("name").getValue();
         textViewUserName.setText(userName);
 
@@ -245,25 +248,26 @@ public class MainScreen extends AppCompatActivity
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-        Toast.makeText(this, "Error: "+databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View view) {
-        if(view == garbageLayout){
-            Toast.makeText(this, "Garbage Layout", Toast.LENGTH_SHORT).show();
+        if (view == garbageLayout) {
+            // Toast.makeText(this, "Garbage Layout", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Report.class);
-            intent.putExtra("type","garbage");
+            intent.putExtra("type", "garbage");
             this.startActivity(intent);
         }
 
-        if(view == pitLayout){
-            Toast.makeText(this, "Pit Layout", Toast.LENGTH_SHORT).show();
+        if (view == pitLayout) {
+            //  Toast.makeText(this, "Pit Layout", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), Report.class);
-            intent.putExtra("type","pit");
+            intent.putExtra("type", "pit");
             this.startActivity(intent);
         }
     }
+
     public void isLocatinmPermissionGranted() {
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -284,15 +288,14 @@ public class MainScreen extends AppCompatActivity
 
                 Log.v(TAG, "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
-                ,android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        , android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
                         android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         android.Manifest.permission.CAMERA
                 }, 100);
             }
         } else { //permission is automatically granted on sdk<23 upon installation
             Log.v(TAG, "Permission is granted");
-
 
         }
 
