@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //final String id = reference.push().getKey();
 
-                final UserData userData = new UserData(user_id[0], username, date, city, state, email);
+                final UserData userData = new UserData(userID, username, date, city, state, email);
 
                 alert.setMessage("Registering...");
                 alert.show();

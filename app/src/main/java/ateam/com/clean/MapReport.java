@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ateam.com.clean.Data.IssueData;
+import ateam.com.clean.Data.User;
 
 public class MapReport extends AppCompatActivity implements View.OnClickListener {
 
@@ -78,6 +79,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String time;
     String filename;
     ProgressDialog progressDialog;
+    User userN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         isphotoTaken = false;
 
         Date date = new Date();
-        time = date.getDate() + "/" + date.getMonth() + "/" + date.getYear() + ";" + date.getHours() + ":" + date.getMinutes();
+        time = date.getDate() + "/" + date.getMonth() + "/" + "17" + ";" + date.getHours() + ":" + date.getMinutes();
         textTime.setText(date.getDate() + "/" + date.getMonth() + "/" + date.getYear() + ";" + date.getHours() + ":" + date.getMinutes());
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         imageView.setOnClickListener(this);
@@ -234,8 +236,8 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             /*
             setting the time for each photo that is taken
              */
-
-        mStorageref = FirebaseStorage.getInstance().getReference(user_id[0]).child(key).child(filename);
+        userN = new User();
+        mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child(filename);
         /**
          *
          * getting @intent data to store image in local directory also
@@ -281,7 +283,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
                 issueData = new IssueData(String.valueOf(downloadurl), location, key, mBundle, time,editDes.getText().toString());
 
-                mDatabase.child(user_id[0]).child(mBundle).child(key).setValue(issueData)
+                mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

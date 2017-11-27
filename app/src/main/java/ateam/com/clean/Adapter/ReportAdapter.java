@@ -57,7 +57,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         holder.reportLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "YOU have clicked "+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "YOU have clicked "+position, Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -37,7 +37,7 @@
                         android:layout_width="84dp"
                         android:layout_height="84dp"
                         android:layout_margin="5dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
+                        app:srcCompat="@drawable/garbage" />
 
                     <TextView
                         android:id="@+id/textViewGarbage"
@@ -77,7 +77,7 @@
                         android:layout_width="84dp"
                         android:layout_height="84dp"
                         android:layout_margin="5dp"
-                        app:srcCompat="@mipmap/ic_launcher" />
+                        app:srcCompat="@drawable/pit" />
 
                     <TextView
                         android:id="@+id/textViewPit"
