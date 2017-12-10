@@ -1,19 +1,17 @@
 package ateam.com.clean;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -23,12 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,7 +50,6 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
 
     private static int CAMERA_REQUEST = 1211;
-    private static final int REQUEST_CODE = 21;
     private static final int REQUEST_PLACE_PICKER = 1;
     private static final String TAG = "MapReport";
     private ImageView imageView;
@@ -96,7 +91,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
         Date date = new Date();
         time = date.getDate() + "/" + date.getMonth() + "/" + "17" + ";" + date.getHours() + ":" + date.getMinutes();
-        textTime.setText(date.getDate() + "/" + date.getMonth() + "/" + date.getYear() + ";" + date.getHours() + ":" + date.getMinutes());
+        textTime.setText(date.getDate() + "/" + date.getMonth() + "/" + "17" + ";" + date.getHours() + ":" + date.getMinutes());
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         imageView.setOnClickListener(this);
         textLocation.setOnClickListener(this);
@@ -110,10 +105,6 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference("issue");
         databaseReference.keepSynced(true);
-        //getting the user id created using the email of the user
-        user_id = user.getEmail().split("@");
-
-        //FirebaseDatabase.getInstance().getReference("issue").child(user_id[0]).child(mBundle).addValueEventListener(this);
     }
 
     @Override

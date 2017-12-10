@@ -67,12 +67,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         auth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("users");
+
 
         if(user!=null){
             startActivity(new Intent(this, MainScreen.class));
             finish();
         }
+        reference = FirebaseDatabase.getInstance().getReference("users");
 
     }
 
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     alert.dismiss();
-                                    Toast.makeText(LoginActivity.this, "Mail Sent to your email" + email, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Mail Sent to your email: " + email, Toast.LENGTH_SHORT).show();
                                     auth.signOut();
                                 }
                             }
