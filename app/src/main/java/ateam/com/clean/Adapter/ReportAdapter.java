@@ -2,6 +2,8 @@ package ateam.com.clean.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,11 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.zip.Inflater;
 
 import ateam.com.clean.Data.IssueData;
+import ateam.com.clean.PhotoViewer;
 import ateam.com.clean.R;
 
 /**
@@ -59,6 +64,16 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             public void onClick(View view) {
                 //Toast.makeText(context, "YOU have clicked "+position, Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        holder.reportImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context.getApplicationContext(), PhotoViewer.class);
+
+                intent.putExtra("image", issueData.getUrl());
+                context.startActivity(intent);
             }
         });
 

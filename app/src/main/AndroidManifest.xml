@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- AIzaSyC-jNct6B1nvEbxbOeVvH3XnGNOKlr9NRo -->
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/appicon"
@@ -51,15 +50,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/placeapi"/>-->
+            android:value="@string/placeapi"/>
+        -->
         <activity
             android:name=".Map.DustbinLocator"
             android:label="@string/title_activity_dustbin_locator" />
-        <activity android:name=".MapReport"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".MapReport"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Report"
             android:label="@string/title_activity_report"
@@ -67,6 +68,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".PhotoViewer"
+            android:label="Photo Viewer"/>
     </application>
 
 </manifest>

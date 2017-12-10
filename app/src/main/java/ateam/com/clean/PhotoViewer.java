@@ -1,0 +1,25 @@
+package ateam.com.clean;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
+
+public class PhotoViewer extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_photo_viewer);
+        PhotoView photoView = findViewById(R.id.photoView);
+        Glide.with(this).load(getIntent().getStringExtra("image")).into(photoView);
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+}
