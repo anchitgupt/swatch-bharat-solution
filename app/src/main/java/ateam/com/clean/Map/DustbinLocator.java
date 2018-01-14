@@ -38,8 +38,6 @@ import ateam.com.clean.R;
 
 public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallback, ValueEventListener {
 
-    private static final LatLngBounds BOUNDS_INDIA = new LatLngBounds(new LatLng(23.63936, 68.14712), new LatLng(28.20453, 97.34466));
-    public static final LatLngBounds BOUNDS_INDIA1 = new LatLngBounds(new LatLng(7.798000, 68.14712), new LatLng(37.090000, 97.34466));
     private GoogleMap mMap;
     private static String TAG = "DustbinLocator";
     private DatabaseReference mDatabase;
