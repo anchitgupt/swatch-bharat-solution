@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -55,7 +57,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     private ImageView imageView;
     private TextView textLocation, textTime;
     private EditText editDes;
-    String type;
+    String latlng;
     IssueData issueData;
     Button submitButton;
     Bitmap imageURL;
@@ -143,6 +145,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             else {
                 Intent intent = new Intent();
                 intent.setAction("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 filename = getFilename();
                 startActivityForResult(intent, CAMERA_REQUEST);
 
@@ -162,6 +165,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
             final CharSequence name = place.getName();
             final CharSequence address = place.getAddress();
+            latlng = String.valueOf(place.getLatLng());
             String attributions = PlacePicker.getAttributions(data);
             if (attributions == null) {
                 attributions = "";
@@ -272,7 +276,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                 Log.e(TAG, "onSuccess: " + location);
                 Log.e(TAG, "onSuccess: " + time);
 
-                issueData = new IssueData(String.valueOf(downloadurl), location, key, mBundle, time,editDes.getText().toString());
+                issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString());
 
                 mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {

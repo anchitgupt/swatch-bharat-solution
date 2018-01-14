@@ -8,6 +8,7 @@ public class IssueData {
 
     String
     url,
+    latlng,
     location,
     key,
     type,
@@ -17,8 +18,14 @@ public class IssueData {
     public IssueData() {
     }
 
-    public IssueData(String url, String location, String key, String type, String time, String desc) {
+    public String getLatlng() {
+        return latlng;
+    }
+
+    public IssueData(String url, String latlng, String location, String key, String type, String time, String desc) {
+
         this.url = url;
+        this.latlng = latlng;
         this.location = location;
         this.key = key;
         this.type = type;

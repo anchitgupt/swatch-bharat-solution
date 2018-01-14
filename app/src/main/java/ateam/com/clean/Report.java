@@ -110,11 +110,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     public void onCancelled(DatabaseError databaseError) {
         Toast.makeText(this, "ERROR :" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
     }
-
-
-
-
-
+    
 }
 
 

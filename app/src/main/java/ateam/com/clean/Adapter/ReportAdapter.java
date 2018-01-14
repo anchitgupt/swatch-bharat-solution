@@ -1,11 +1,13 @@
 package ateam.com.clean.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +32,12 @@ import ateam.com.clean.R;
  * Created by apple on 19/11/17.
  */
 
-public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder>{
+public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder> {
 
     private List<IssueData> issueDataList;
     private Context context;
     private IssueData issueData;
-    private static String TAG ="ReportAdpater";
+    private static String TAG = "ReportAdpater";
 
     public ReportAdapter(List<IssueData> issueDataList, Context context) {
         this.issueDataList = issueDataList;
@@ -51,11 +53,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         issueData = issueDataList.get(position);
-        Log.e(TAG, "onBindViewHolder: "+issueData.getUrl() );
+        Log.e(TAG, "onBindViewHolder: " + issueData.getUrl());
         Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
-
         holder.reportKeyValue.setText(issueData.getKey());
-        holder.reportLocationValue.setText(issueData.getLocation());
+        holder.reportLocationValue.setText(issueData.getLatlng() + "\n" + issueData.getLocation());
         holder.reportTypeValue.setText(issueData.getType());
         holder.reportTimeValue.setText(issueData.getTime());
         holder.reportDescriptionValue.setText(issueData.getDesc());
@@ -94,7 +95,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
         public ViewHolder(View itemView) {
             super(itemView);
-            reportImageView =  itemView.findViewById(R.id.report_image);
+            reportImageView = itemView.findViewById(R.id.report_image);
             reportLocationValue = itemView.findViewById(R.id.report_location_value);
             reportTypeValue = itemView.findViewById(R.id.report_key_type_value);
             reportKeyValue = itemView.findViewById(R.id.report_key_value);
@@ -102,6 +103,8 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             reportTimeValue = itemView.findViewById(R.id.report_time_value);
             reportLinearLayout = itemView.findViewById(R.id.report_linear);
             cardView = itemView.findViewById(R.id.report_card);
+
+            reportLocationValue.setMovementMethod(new ScrollingMovementMethod());
         }
     }
 }
