@@ -1,6 +1,7 @@
 package ateam.com.clean;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -40,8 +41,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.joda.time.DateTime;
+
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -77,7 +81,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String filename;
     ProgressDialog progressDialog;
     User userN;
+    String statusIssue = "false";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,9 +97,13 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         b = false;
         isphotoTaken = false;
 
-        Date date = new Date();
-        time = date.getDate() + "/" + date.getMonth() + "/" + "17" + ";" + date.getHours() + ":" + date.getMinutes();
-        textTime.setText(date.getDate() + "/" + date.getMonth() + "/" + "17" + ";" + date.getHours() + ":" + date.getMinutes());
+        Date date = Calendar.getInstance().getTime();
+        DateTime dt = new DateTime(date);
+        Log.e(TAG, String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()));
+        Log.e(TAG, String.valueOf(dt.getHourOfDay()+":"+dt.getMinuteOfHour()));
+        time = String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear());
+        textTime.setText(String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()) + ";" +
+                String.valueOf(dt.getHourOfDay()+":"+dt.getMinuteOfHour()));
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         imageView.setOnClickListener(this);
         textLocation.setOnClickListener(this);
@@ -242,6 +252,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
         progressDialog = new ProgressDialog(this);
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         UploadTask uploadTask = mStorageref.putBytes(bytes);
 
@@ -276,7 +287,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                 Log.e(TAG, "onSuccess: " + location);
                 Log.e(TAG, "onSuccess: " + time);
 
-                issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString());
+                issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
 
                 mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
@@ -294,6 +305,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                                 Log.e(TAG, "onFailure: " + e.getMessage());
                             }
                         });
+
 
                 Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
 

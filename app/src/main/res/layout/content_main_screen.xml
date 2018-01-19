@@ -8,6 +8,9 @@
     tools:context="ateam.com.clean.MainScreen"
     tools:showIn="@layout/app_bar_main_screen">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -17,7 +20,8 @@
             android:id="@+id/card_garbage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="40dp"
+            android:layout_margin="10dp"
             android:elevation="5dp"
             app:cardElevation="5dp">
 
@@ -57,7 +61,8 @@
             android:id="@+id/card_pit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
             android:elevation="5dp"
             app:cardElevation="5dp">
 
@@ -93,6 +98,86 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-    </LinearLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/water_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
 
+            <LinearLayout
+                android:id="@+id/linearLayoutLog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewLog"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/pit" />
+
+                    <TextView
+                        android:id="@+id/textViewLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Water Log"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutChild"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewChild"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/pit" />
+
+                    <TextView
+                        android:id="@+id/textViewChild"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Child Labour"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

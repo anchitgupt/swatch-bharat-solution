@@ -53,7 +53,7 @@ public class MainScreen extends AppCompatActivity
     FirebaseUser user;
     DatabaseReference reference;
     String userName;
-    LinearLayout garbageLayout, pitLayout;
+    LinearLayout garbageLayout, pitLayout, loglayout, childlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +65,14 @@ public class MainScreen extends AppCompatActivity
         isLocatinmPermissionGranted();
         garbageLayout = findViewById(R.id.linearLayoutGarbage);
         pitLayout = findViewById(R.id.linearLayoutPit);
+        loglayout = findViewById(R.id.linearLayoutLog);
+        childlayout = findViewById(R.id.linearLayoutChild);
 
         garbageLayout.setOnClickListener(this);
         pitLayout.setOnClickListener(this);
+        loglayout.setOnClickListener(this);
+        childlayout.setOnClickListener(this);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
@@ -218,6 +223,14 @@ public class MainScreen extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), Report.class);
             intent.putExtra("type", "pit");
             this.startActivity(intent);
+        }else if (id == R.id.menu_item_log) {
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "log");
+            this.startActivity(intent);
+        }else if (id == R.id.menu_item_child) {
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "child");
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -242,10 +255,7 @@ public class MainScreen extends AppCompatActivity
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(userName).build();
         user.updateProfile(profileUpdates);
-/*
-        String userName  = String.valueOf(dataSnapshot.child(user_id[0]).child("name"));
-        Log.e("USer",userName);*/
-//        Log.e("User",userName);
+
     }
 
     @Override
@@ -268,6 +278,19 @@ public class MainScreen extends AppCompatActivity
             intent.putExtra("type", "pit");
             this.startActivity(intent);
         }
+        if (view == loglayout) {
+            //  Toast.makeText(this, "Pit Layout", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "log");
+            this.startActivity(intent);
+        }
+        if (view == childlayout) {
+            //  Toast.makeText(this, "Pit Layout", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), Report.class);
+            intent.putExtra("type", "child");
+            this.startActivity(intent);
+        }
+
     }
 
     public void isLocatinmPermissionGranted() {

@@ -8,8 +8,7 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/report_card"
-        app:cardCornerRadius="5dp"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,6 +25,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:contentDescription="@string/image" />
+            <!--status-->
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/report_status"
+                    android:text="STATUS"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/report_status_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ff0000"
+                    />
+            </LinearLayout>
             <!--KEY-->
             <LinearLayout
                 android:padding="5dp"
@@ -36,6 +57,7 @@
                 <TextView
                     android:id="@+id/report_key"
                     android:text="TOKEN"
+                    android:textStyle="bold"
                     android:layout_marginEnd="4dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
@@ -55,6 +77,7 @@
                 <TextView
                     android:id="@+id/report_time"
                     android:text="TIME"
+                    android:textStyle="bold"
                     android:layout_marginEnd="4dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
@@ -78,6 +101,7 @@
                     android:id="@+id/report_key_type"
                     android:layout_marginEnd="4dp"
                     android:text="TYPE"
+                    android:textStyle="bold"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
 
@@ -96,6 +120,7 @@
                 <TextView
                     android:id="@+id/report_location"
                     android:text="LOCATION"
+                    android:textStyle="bold"
                     android:layout_marginEnd="4dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />
@@ -115,6 +140,7 @@
                 <TextView
                     android:id="@+id/report_description"
                     android:text="DESCRIBE"
+                    android:textStyle="bold"
                     android:layout_marginEnd="4dp"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content" />

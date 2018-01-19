@@ -43,7 +43,6 @@ public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallb
     private DatabaseReference mDatabase;
     private ArrayList<LatLngFetcher> latLngFetcherArrayList, latLngFetcherArrayList2 = new ArrayList<>();
     private LatLngFetcher latLngFetcher;
-    LatLng latLng;
     LocationManager locationManager;
     FirebaseUser user;
     String city=null;
@@ -84,13 +83,10 @@ public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallb
 
 
     /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
+     *
+     *
+     *
+     * @param googleMap
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -108,11 +104,7 @@ public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallb
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
             showGPSDisabledAlertToUser();
         mMap.setMyLocationEnabled(true);
-        // Add a marker in Sydney and move the camera
-        /*LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));*/
-        //mMap.addMarker(customMarkerPositions());
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
 
     }
 
@@ -122,8 +114,6 @@ public class DustbinLocator extends AppCompatActivity implements OnMapReadyCallb
         for (DataSnapshot mydata: dataSnapshot.getChildren()
                 ) {
             latLngFetcher = mydata.getValue(LatLngFetcher.class);
-            //Log.e(TAG, "onDataChange: "+latLngFetcher.getLatitude()+" "+latLngFetcher.getLongitude() );
-            //latLng = new LatLng(Double.parseDouble(latLngFetcher.getLatitude()),Double.parseDouble(latLngFetcher.getLongitude()));
             latLngFetcherArrayList.add(latLngFetcher);
         }
         for (int i=0;i<latLngFetcherArrayList.size();i++){

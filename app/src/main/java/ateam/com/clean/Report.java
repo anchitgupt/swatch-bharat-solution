@@ -38,8 +38,6 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     String mBundle;
 
     FirebaseUser user;
-    String[] user_id;
-    String key;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     IssueData issueData;
@@ -110,7 +108,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     public void onCancelled(DatabaseError databaseError) {
         Toast.makeText(this, "ERROR :" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
     }
-    
+
 }
 
 

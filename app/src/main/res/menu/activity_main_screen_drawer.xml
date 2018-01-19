@@ -2,23 +2,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/menu_item_grabage"
-            android:icon="@drawable/ic_delete_black_24dp"
-            android:title="Garbage"
-            />
-        <item
-            android:id="@+id/menu_item_pit"
-            android:icon="@drawable/ic_report_problem_black_24dp"
-            android:title="Pit Holes"
-            />
+        <item android:title="Issues">
+            <menu>
+                <item
+                    android:id="@+id/menu_item_grabage"
+                    android:icon="@drawable/ic_delete_black_24dp"
+                    android:title="Garbage" />
+                <item
+                    android:id="@+id/menu_item_pit"
+                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:title="Pit Holes" />
+                <item
+                    android:id="@+id/menu_item_log"
+                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:title="Water Logging" />
+                <item
+                    android:id="@+id/menu_item_child"
+                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:title="Child Labour" />
+            </menu>
+        </item>
     </group>
     <item android:title="Miscellaneous">
         <menu>
             <item
                 android:id="@+id/menu_item_dustbin"
-                android:title="Dustbins"
-                />
+                android:title="Dustbins" />
         </menu>
     </item>
     <item android:title="Communicate">

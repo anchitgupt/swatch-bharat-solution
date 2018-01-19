@@ -13,7 +13,8 @@ public class IssueData {
     key,
     type,
     time,
-    desc;
+    desc,
+    status;
 
     public IssueData() {
     }
@@ -22,8 +23,7 @@ public class IssueData {
         return latlng;
     }
 
-    public IssueData(String url, String latlng, String location, String key, String type, String time, String desc) {
-
+    public IssueData(String url, String latlng, String location, String key, String type, String time, String desc, String status) {
         this.url = url;
         this.latlng = latlng;
         this.location = location;
@@ -31,6 +31,11 @@ public class IssueData {
         this.type = type;
         this.time = time;
         this.desc = desc;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getTime() {
