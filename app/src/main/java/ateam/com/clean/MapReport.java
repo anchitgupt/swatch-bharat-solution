@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import ateam.com.clean.Data.AdminData;
 import ateam.com.clean.Data.IssueData;
 import ateam.com.clean.Data.User;
 
@@ -296,6 +297,40 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
                                 if (task.isSuccessful()) {
                                     Log.e(TAG, "KEY VALUE ADDED");
+
+                                    /*
+
+                                        Adding the admin data in the @admin root
+                                     */
+                                    AdminData adminData = new AdminData(
+                                            String.valueOf(downloadurl),
+                                            latlng,
+                                            location,
+                                            key,
+                                            mBundle,
+                                            time,
+                                            editDes.getText().toString(),
+                                            null,
+                                            user.getEmail()
+                                    );
+
+                                    FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(
+                                            adminData
+                                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Log.e(TAG, "onComplete: admin data" );
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e(TAG, "onFailure: no admin data"+e.getMessage() );
+                                        }
+                                    });
+
+
                                 }
                             }
                         })
