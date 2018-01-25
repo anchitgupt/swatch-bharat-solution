@@ -28,6 +28,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -176,7 +177,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
             final CharSequence name = place.getName();
             final CharSequence address = place.getAddress();
-            latlng = String.valueOf(place.getLatLng());
+
+            LatLng lln = place.getLatLng();
+            latlng = String.valueOf(lln.latitude+";"+lln.longitude);
             String attributions = PlacePicker.getAttributions(data);
             if (attributions == null) {
                 attributions = "";
@@ -194,6 +197,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             imageView.setImageBitmap(mBitmap);
         }
     }
+
 
     /**
      * using the AlertDialog to
