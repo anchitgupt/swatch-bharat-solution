@@ -84,6 +84,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     ProgressDialog progressDialog;
     User userN;
     String statusIssue = "false";
+    AdminData adminData;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -264,77 +265,25 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         uploadTask.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
 
                 final Uri downloadurl = taskSnapshot.getDownloadUrl();
-
-
-                    /*
-                    Creating the databaserreference in the firebase database for the
-                    the user complaint as hirarchy
-                    issue-|
-                          -user_id
-                            - garbage
-                                -  @key
-                                    -user_id
-                                    -location
-                                    -url
-                                    -@key
-                           - pit
-                                -  @key
-                                    -user_id
-                                    -location
-                                    -url
-                                    -@key
-                     */
-
 
                 Log.e(TAG, "onSuccess: " + location);
                 Log.e(TAG, "onSuccess: " + time);
 
+                /*
+                *
+                * User data updated
+                 */
                 issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
 
                 mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-
-                                if (task.isSuccessful()) {
+                                if(task.isComplete()) {
                                     Log.e(TAG, "KEY VALUE ADDED");
-
-                                    /*
-
-                                        Adding the admin data in the @admin root
-                                     */
-                                    AdminData adminData = new AdminData(
-                                            String.valueOf(downloadurl),
-                                            latlng,
-                                            location,
-                                            key,
-                                            mBundle,
-                                            time,
-                                            editDes.getText().toString(),
-                                            null,
-                                            user.getEmail()
-                                    );
-
-                                    FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(
-                                            adminData
-                                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                Log.e(TAG, "onComplete: admin data" );
-                                            }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.e(TAG, "onFailure: no admin data"+e.getMessage() );
-                                        }
-                                    });
-
-
+                                    Toast.makeText(MapReport.this, "User Value Updated", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
@@ -345,12 +294,47 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                             }
                         });
 
+                /**
+                 *
+                 * Admin data updated
+                 */
+                adminData = new AdminData(
+                        String.valueOf(downloadurl),
+                        latlng,
+                        location,
+                        key,
+                        mBundle,
+                        time,
+                        editDes.getText().toString(),
+                        null,
+                        user.getEmail()
+                );
 
-                Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
+                FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(adminData)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.e(TAG, "onComplete: admin data");
+                                    Toast.makeText(MapReport.this, "Admin received Data", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: no admin data" + e.getMessage());
+
+                    }
+                });
+
+
+                //Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
 
                 Toast.makeText(MapReport.this, "FILE UPLODED SUCESSFULLY", Toast.LENGTH_SHORT).show();
                 finish();
                 Log.e(TAG, "onSuccess: FILE UPLOADED SUCESSFULLY");
+                progressDialog.dismiss();
 
             }
         }).addOnFailureListener(this, new OnFailureListener() {
