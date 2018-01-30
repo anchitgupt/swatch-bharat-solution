@@ -306,8 +306,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                         mBundle,
                         time,
                         editDes.getText().toString(),
-                        null,
-                        user.getEmail()
+                        "",
+                        user.getEmail(),
+                        "false"
                 );
 
                 FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(adminData)

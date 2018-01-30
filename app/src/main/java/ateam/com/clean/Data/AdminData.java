@@ -17,9 +17,10 @@ public class AdminData {
             time,
             desc,
             worker,
-            email;
+            email,
+            status;
 
-    public AdminData(String url, String latlng, String location, String key, String type, String time, String desc, String worker, String email) {
+    public AdminData(String url, String latlng, String location, String key, String type, String time, String desc, String worker, String email, String status) {
         this.url = url;
         this.latlng = latlng;
         this.location = location;
@@ -29,10 +30,15 @@ public class AdminData {
         this.desc = desc;
         this.worker = worker;
         this.email = email;
+        this.status = status;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getUrl() {
