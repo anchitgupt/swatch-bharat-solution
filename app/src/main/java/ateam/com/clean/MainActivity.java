@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             User userN = new User();
             final String userID = userN.getUserID(email);
             final String[] user_id = email.split("@");
+
+
             if (checkNull()) {
                 if (date.length() != 10) {
                     editTextPhone.setError("Enter Valid 10 digit Phone number");

@@ -10,15 +10,15 @@
                     android:title="Garbage" />
                 <item
                     android:id="@+id/menu_item_pit"
-                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:icon="@drawable/pit"
                     android:title="Pit Holes" />
                 <item
                     android:id="@+id/menu_item_log"
-                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:icon="@drawable/ic_child_care_black_24dp"
                     android:title="Water Logging" />
                 <item
                     android:id="@+id/menu_item_child"
-                    android:icon="@drawable/ic_report_problem_black_24dp"
+                    android:icon="@drawable/ic_child_care_black_24dp"
                     android:title="Child Labour" />
             </menu>
         </item>
