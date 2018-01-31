@@ -277,7 +277,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                  */
                 issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
 
-                mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
+                mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child("new").child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

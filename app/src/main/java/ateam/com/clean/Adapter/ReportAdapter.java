@@ -29,6 +29,7 @@ import java.util.zip.Inflater;
 import ateam.com.clean.Data.IssueData;
 import ateam.com.clean.PhotoViewer;
 import ateam.com.clean.R;
+import ateam.com.clean.Report;
 
 /**
  * Created by apple on 19/11/17.
@@ -56,48 +57,45 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         issueData = issueDataList.get(position);
 
-        Log.e(TAG, "POSITION: "+position );
+        Log.e(TAG, "POSITION: " + position);
         Log.e(TAG, "onBindViewHolder: " + issueData.getUrl());
-        Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
-        holder.reportKeyValue.setText(issueData.getKey());
-        holder.reportLocationValue.setText(issueData.getLatlng() + "\n" + issueData.getLocation());
-        holder.reportTypeValue.setText(issueData.getType());
-        holder.reportTimeValue.setText(issueData.getTime());
-        if(Objects.equals(issueData.getStatus(), "false"))
-        {
-            holder.reportStatusValue.setText("Pending");
-        }
-        else
-        {
-            holder.reportStatusValue.setText("Resolved");
-            holder.reportStatusValue.setTextColor(Color.GREEN);
-        }
-        holder.reportDescriptionValue.setText(issueData.getDesc());
-        holder.reportLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Toast.makeText(context, "YOU have clicked "+position, Toast.LENGTH_SHORT).show();
 
+            Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
+            holder.reportKeyValue.setText(issueData.getKey());
+            holder.reportLocationValue.setText(issueData.getLatlng() + "\n" + issueData.getLocation());
+            holder.reportTypeValue.setText(issueData.getType());
+            holder.reportTimeValue.setText(issueData.getTime());
+            if (Objects.equals(issueData.getStatus(), "false")) {
+                holder.reportStatusValue.setText("Pending");
+            } else {
+                holder.reportStatusValue.setText("Resolved");
+                holder.reportStatusValue.setTextColor(Color.GREEN);
             }
-        });
-        holder.reportImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            holder.reportDescriptionValue.setText(issueData.getDesc());
+            holder.reportLinearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Toast.makeText(context, "YOU have clicked "+position, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(context.getApplicationContext(), PhotoViewer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                localIssueData = issueDataList.get(position);
+                }
+            });
+            holder.reportImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                intent.putExtra("image", localIssueData.getUrl());
+                    Intent intent = new Intent(context.getApplicationContext(), PhotoViewer.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    localIssueData = issueDataList.get(position);
 
-                Log.e(TAG, "POSITION: "+position );
-                Log.e(TAG, "onClick: "+localIssueData.getUrl());
+                    intent.putExtra("image", localIssueData.getUrl());
 
-                intent.putExtra("loc",localIssueData.getLocation());
-                context.startActivity(intent);
-            }
-        });
+                    Log.e(TAG, "POSITION: " + position);
+                    Log.e(TAG, "onClick: " + localIssueData.getUrl());
 
+                    intent.putExtra("loc", localIssueData.getLocation());
+                    context.startActivity(intent);
+                }
+            });
 
     }
 
