@@ -67,10 +67,14 @@
             android:parentActivityName=".MainScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".PhotoViewer"
-            android:screenOrientation="portrait"
-            android:label="Photo Viewer"/>
+        <activity
+            android:name=".PhotoViewer"
+            android:label="Photo Viewer"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Feed.FeedActivity"
+            android:label="@string/title_activity_feed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
