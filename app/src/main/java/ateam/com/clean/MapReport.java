@@ -112,6 +112,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         textLocation.setOnClickListener(this);
         submitButton.setOnClickListener(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mBundle = getIntent().getStringExtra("type");
 
@@ -362,6 +363,12 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
     private String getFilename() {
         return new SimpleDateFormat("hh_mm_ss_dd_MM_yyyy", Locale.getDefault()).format(new Date()) + ".jpeg";
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
 }

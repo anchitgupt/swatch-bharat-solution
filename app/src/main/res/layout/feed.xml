@@ -7,13 +7,13 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/report_card"
+        android:id="@+id/feed_card"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/report_linear"
+            android:id="@+id/feed_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -21,8 +21,8 @@
 
             <ImageView
                 android:layout_margin="4dp"
-                android:id="@+id/report_image"
                 android:transitionName="profile"
+                android:id="@+id/feed_image"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:contentDescription="@string/image" />
@@ -34,7 +34,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_status"
+                    android:id="@+id/feed_status"
                     android:text="STATUS"
                     android:textStyle="bold"
                     android:layout_marginEnd="4dp"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_status_value"
+                    android:id="@+id/feed_status_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#ff0000"
@@ -56,7 +56,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_key"
+                    android:id="@+id/feed_key"
                     android:text="TOKEN"
                     android:textStyle="bold"
                     android:layout_marginEnd="4dp"
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_key_value"
+                    android:id="@+id/feed_key_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -76,7 +76,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_time"
+                    android:id="@+id/feed_time"
                     android:text="TIME"
                     android:textStyle="bold"
                     android:layout_marginEnd="4dp"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_time_value"
+                    android:id="@+id/feed_time_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text|datetime"
@@ -99,7 +99,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_key_type"
+                    android:id="@+id/feed_key_type"
                     android:layout_marginEnd="4dp"
                     android:text="TYPE"
                     android:textStyle="bold"
@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_key_type_value"
+                    android:id="@+id/feed_key_type_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -119,7 +119,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_location"
+                    android:id="@+id/feed_location"
                     android:text="LOCATION"
                     android:textStyle="bold"
                     android:layout_marginEnd="4dp"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_location_value"
+                    android:id="@+id/feed_location_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="true" />
@@ -139,7 +139,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/report_description"
+                    android:id="@+id/feed_description"
                     android:text="DESCRIBE"
                     android:textStyle="bold"
                     android:layout_marginEnd="4dp"
@@ -147,11 +147,33 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/report_description_value"
+                    android:id="@+id/feed_description_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="true" />
             </LinearLayout>
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/feed_worker"
+                    android:text="WORKER"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/feed_worker_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

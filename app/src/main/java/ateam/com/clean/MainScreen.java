@@ -42,6 +42,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ateam.com.clean.Data.User;
+import ateam.com.clean.Feed.FeedActivity;
 import ateam.com.clean.Map.DustbinLocator;
 
 public class MainScreen extends AppCompatActivity
@@ -231,6 +232,10 @@ public class MainScreen extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), Report.class);
             intent.putExtra("type", "child");
             this.startActivity(intent);
+        }
+        else if(id == R.id.menu_item_feed){
+            Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

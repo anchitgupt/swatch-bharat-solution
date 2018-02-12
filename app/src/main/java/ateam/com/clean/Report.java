@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ateam.com.clean.Adapter.ReportAdapter;
@@ -99,7 +100,8 @@ public class Report extends AppCompatActivity implements ValueEventListener {
        // databaseReference.keepSynced(true);
         //getting the user id created using the email of the user
         userN = new User();
-        FirebaseDatabase.getInstance().getReference("issue").child(userN.getUserID(user.getEmail())).child(mBundle).child("new").addValueEventListener(this);
+        FirebaseDatabase.getInstance().getReference("issue").child(userN.getUserID(user.getEmail())).child(mBundle)
+                .child("new").addValueEventListener(this);
         //cacahing the data
 
 
@@ -127,6 +129,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
                                 issueData = mydata.getValue(IssueData.class);
                                 issueDataList.add(issueData);
                             }
+                            Collections.reverse(issueDataList);
                             issueCount.setText("Issue Reported: "+String.valueOf(num));
                             recyclerViewHistory.setLayoutManager(new LinearLayoutManager(Report.this));
                             adapterHistory = new ReportAdapter(issueDataList, Report.this);
@@ -166,6 +169,7 @@ public class Report extends AppCompatActivity implements ValueEventListener {
                 num++;
             }
         }
+        Collections.reverse(issueDataList);
         issueCount.setText("Issue Reported: "+String.valueOf(num));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ReportAdapter(issueDataList, this);
@@ -177,8 +181,6 @@ public class Report extends AppCompatActivity implements ValueEventListener {
     public void onCancelled(DatabaseError databaseError) {
         Toast.makeText(this, "ERROR :" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
     }
-
-
 }
 
 

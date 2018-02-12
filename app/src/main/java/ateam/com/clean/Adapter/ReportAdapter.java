@@ -1,11 +1,13 @@
 package ateam.com.clean.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
@@ -91,9 +93,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
                     Log.e(TAG, "POSITION: " + position);
                     Log.e(TAG, "onClick: " + localIssueData.getUrl());
-
+                    Activity activity = (Activity) context;
                     intent.putExtra("loc", localIssueData.getLocation());
-                    context.startActivity(intent);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(activity, holder.reportImageView,"profile");
+                    context.startActivity(intent, options.toBundle());
                 }
             });
 

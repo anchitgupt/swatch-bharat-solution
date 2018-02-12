@@ -57,7 +57,8 @@
     <string name="title_activity_dustbin_locator">Dustbin Locator</string>
     <string name="placeapi">AIzaSyB6IRlRAqS4zw_kYBWQC43VFKT-5a4kkP4</string>
     <string name="title_activity_feed">FeedActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
+    <string name="tab_text_1">Garbage</string>
+    <string name="tab_text_2">Pit</string>
+    <string name="tab_text_3">Water Logs</string>
+    <string name="tab_text_4">Child Labour</string>
 </resources>
