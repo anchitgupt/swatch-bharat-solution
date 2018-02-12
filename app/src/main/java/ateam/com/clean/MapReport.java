@@ -112,6 +112,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         textLocation.setOnClickListener(this);
         submitButton.setOnClickListener(this);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mBundle = getIntent().getStringExtra("type");
 
