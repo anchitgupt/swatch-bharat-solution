@@ -32,6 +32,10 @@
             <item
                 android:id="@+id/menu_item_dustbin"
                 android:title="Dustbins" />
+            <item
+                android:id="@+id/menu_item_feed"
+                android:title="Feeds"
+                />
         </menu>
     </item>
     <item android:title="Communicate">
