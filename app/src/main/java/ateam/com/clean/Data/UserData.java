@@ -6,7 +6,7 @@ package ateam.com.clean.Data;
 
 public class UserData {
 
-    private String UUID,
+    public String UUID,
             id,
     name,
     phone,

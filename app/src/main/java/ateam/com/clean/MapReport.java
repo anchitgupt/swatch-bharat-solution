@@ -85,6 +85,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     User userN;
     String statusIssue = "false";
     AdminData adminData;
+    String day, month, year;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -105,6 +106,11 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         Log.e(TAG, String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()));
         Log.e(TAG, String.valueOf(dt.getHourOfDay()+":"+dt.getMinuteOfHour()));
         time = String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear());
+
+        day = String.valueOf(dt.getDayOfMonth());
+        month = String.valueOf(dt.getMonthOfYear());
+        year = String.valueOf(dt.getYear());
+
         textTime.setText(String.valueOf(dt.getDayOfMonth()+"/"+dt.getMonthOfYear()+"/"+dt.getYear()) + ";" +
                 String.valueOf(dt.getHourOfDay()+":"+dt.getMinuteOfHour()));
         locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -189,6 +195,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
             location = name + "," + address + "," + Html.fromHtml(attributions);
             textLocation.setText(name + "," + address + "," + Html.fromHtml(attributions));
+
 
         } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             isphotoTaken = true;
@@ -330,6 +337,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
                     }
                 });
+
+
+
 
 
                 //Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));

@@ -123,7 +123,7 @@
                         android:layout_width="84dp"
                         android:layout_height="84dp"
                         android:layout_margin="5dp"
-                        app:srcCompat="@drawable/pit" />
+                        app:srcCompat="@drawable/sewage" />
 
                     <TextView
                         android:id="@+id/textViewLog"
@@ -163,7 +163,7 @@
                         android:layout_width="84dp"
                         android:layout_height="84dp"
                         android:layout_margin="5dp"
-                        app:srcCompat="@drawable/pit" />
+                        app:srcCompat="@drawable/childlabour" />
 
                     <TextView
                         android:id="@+id/textViewChild"
