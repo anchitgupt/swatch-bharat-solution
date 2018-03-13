@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -45,6 +47,8 @@ import com.google.firebase.storage.UploadTask;
 import org.joda.time.DateTime;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,16 +70,11 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String latlng;
     IssueData issueData;
     Button submitButton;
-    Bitmap imageURL;
     boolean b, isphotoTaken;
     LocationManager locationManager;
-    Bitmap mBitmap;
-    ByteArrayOutputStream mByteOutputStream;
-    byte[] bytes;
     private StorageReference mStorageref;
     private DatabaseReference mDatabase;
     FirebaseUser user;
-    String[] user_id;
     String key;
     String location;
     String mBundle;
@@ -86,6 +85,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String statusIssue = "false";
     AdminData adminData;
     String day, month, year;
+    Uri photoURI;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -159,19 +159,23 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             }
         }
 
+
         if (view == imageView) {
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                 showGPSDisabledAlertToUser();
             else {
-                Intent intent = new Intent();
-                intent.setAction("android.media.action.IMAGE_CAPTURE");
-                intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                filename = getFilename();
-                startActivityForResult(intent, CAMERA_REQUEST);
+                isphotoTaken = true;
+
+                Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                photoURI = FileProvider.getUriForFile(this,
+                        this.getApplicationContext().getPackageName() + ".provider", file);
+                m_intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(m_intent, CAMERA_REQUEST);
+                }
 
             }
         }
-    }
 
 
     @Override
@@ -198,12 +202,16 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
 
         } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            isphotoTaken = true;
-            mBitmap = (Bitmap) data.getExtras().get("data");
-            mByteOutputStream = new ByteArrayOutputStream();
-            Bitmap.createBitmap(mBitmap).compress(Bitmap.CompressFormat.JPEG, 100, mByteOutputStream);
-            bytes = mByteOutputStream.toByteArray();
+
+            Bitmap  mBitmap = null;
+            try {
+                  mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             imageView.setImageBitmap(mBitmap);
+
         }
     }
 
@@ -256,7 +264,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             setting the time for each photo that is taken
              */
         userN = new User();
-        mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child(filename);
+        mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child("MyPhoto.jpg");
         /**
          *
          * getting @intent data to store image in local directory also
@@ -266,10 +274,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
         progressDialog = new ProgressDialog(this);
         progressDialog.show();
-        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
-        UploadTask uploadTask = mStorageref.putBytes(bytes);
-
+        UploadTask uploadTask = mStorageref.putFile(photoURI);
         uploadTask.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

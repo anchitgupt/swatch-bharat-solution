@@ -9,7 +9,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-˙
+˙   <!--geofence-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/appicon"
@@ -56,6 +58,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/placeapi"/>
         -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="ateam.com.clean.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity
             android:name=".Map.DustbinLocator"
             android:label="@string/title_activity_dustbin_locator" />
@@ -77,6 +88,29 @@
             android:name=".Feed.FeedActivity"
             android:label="Some Nearby Feeds"
             android:theme="@style/AppTheme.NoActionBar" />
+        <!--testing-->
+
+        <activity
+            android:name=".Geofence.MainActivity"
+            android:label="@string/app_name">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
+        <receiver
+            android:name=".Geofence.GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".Geofence.GeofenceTransitionsJobIntentService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+
     </application>
 
 </manifest>

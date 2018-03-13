@@ -43,6 +43,7 @@ import java.util.ArrayList;
 
 import ateam.com.clean.Data.User;
 import ateam.com.clean.Feed.FeedActivity;
+import ateam.com.clean.Geofence.*;
 import ateam.com.clean.Map.DustbinLocator;
 
 public class MainScreen extends AppCompatActivity
@@ -180,6 +181,7 @@ public class MainScreen extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, ateam.com.clean.Geofence.MainActivity.class));
             return true;
         }
         if (id == R.id.logout) {
