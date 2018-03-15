@@ -79,7 +79,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String location;
     String mBundle;
     String time;
-    String filename;
+    String mImageName;
     ProgressDialog progressDialog;
     User userN;
     String statusIssue = "false";
@@ -167,7 +167,8 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                 isphotoTaken = true;
 
                 Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                mImageName = new SimpleDateFormat("dd_MM_yy_HH_mm_ss",Locale.getDefault()).format(new Date());
+                File file = new File(Environment.getExternalStorageDirectory(), mImageName+".jpg");
                 photoURI = FileProvider.getUriForFile(this,
                         this.getApplicationContext().getPackageName() + ".provider", file);
                 m_intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoURI);
@@ -264,7 +265,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             setting the time for each photo that is taken
              */
         userN = new User();
-        mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child("MyPhoto.jpg");
+        mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child(mImageName+".jpg");
         /**
          *
          * getting @intent data to store image in local directory also

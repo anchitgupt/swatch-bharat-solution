@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
             requestPermissions();
             return;
         }
+        if(mGeofenceList.size() != 0)
         addGeofences();
 
     }

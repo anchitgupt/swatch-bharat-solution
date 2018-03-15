@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.zip.Inflater;
 
+import javax.microedition.khronos.opengles.GL;
+
 import ateam.com.clean.Data.IssueData;
 import ateam.com.clean.PhotoViewer;
 import ateam.com.clean.R;
@@ -63,6 +65,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         Log.e(TAG, "onBindViewHolder: " + issueData.getUrl());
 
             Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
+       // Glide.with(context).asBitmap().to
             holder.reportKeyValue.setText(issueData.getKey());
             holder.reportLocationValue.setText(issueData.getLatlng() + "\n" + issueData.getLocation());
             holder.reportTypeValue.setText(issueData.getType());
