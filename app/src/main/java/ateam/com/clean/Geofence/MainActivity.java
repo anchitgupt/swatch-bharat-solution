@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
             requestPermissions();
             return;
         }
-        if(mGeofenceList.size() != 0)
+        //if(mGeofenceList.size() != 0)
         addGeofences();
 
     }
@@ -279,14 +279,11 @@ public class MainActivity extends AppCompatActivity implements OnCompleteListene
         Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when calling
         // addGeofences() and removeGeofences().
-        mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mGeofencePendingIntent =
+                PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return mGeofencePendingIntent;
     }
 
-    /**
-     * This sample hard codes geofence data. A real app might dynamically create geofences based on
-     * the user's location.
-     */
 
     /**
      * Ensures that only one button is enabled at any time. The Add Geofences button is enabled

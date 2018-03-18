@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.os.Build;
@@ -137,7 +138,7 @@ public class GeofenceTransitionsJobIntentService extends JobIntentService {
         // Get an instance of the Notification manager
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
+        AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         // Android O requires a Notification Channel.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.app_name);
@@ -181,6 +182,8 @@ public class GeofenceTransitionsJobIntentService extends JobIntentService {
                 .setContentText(getString(R.string.geofence_transition_notification_text))
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setContentIntent(notificationPendingIntent);
+
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 
         // Set the Channel ID for Android O.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

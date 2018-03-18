@@ -63,13 +63,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         holder.feedLocationValue.setText(feedData.getLatlng() + "\n" + feedData.getLocation());
         holder.feedTypeValue.setText(feedData.getType());
         holder.feedTimeValue.setText(feedData.getTime());
-        if (Objects.equals(feedData.getStatus(), "false")) {
-            holder.feedStatusValue.setText("Pending");
-        } else {
-            holder.feedStatusValue.setText("Resolved");
-            holder.feedStatusValue.setTextColor(Color.GREEN);
-        }
+        holder.feedStatusValue.setText(feedData.getStatus());
+        holder.feedStatusValue.setTextColor(Color.GREEN);
         holder.feedDescriptionValue.setText(feedData.getDesc());
+        holder.feedWorkerValue.setText(feedData.getWorker());
         holder.feedLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

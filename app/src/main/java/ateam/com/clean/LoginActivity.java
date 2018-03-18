@@ -20,16 +20,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ateam.com.clean.Data.User;
 import dmax.dialog.SpotsDialog;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -42,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     FirebaseUser user;
     DatabaseReference reference;
     ProgressDialog alert;
-
+    User userN;
 
 
     @Override
@@ -82,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if(view == buttonLogin){
             String pass =editTextPassword.getText().toString();
-            String email=editTextEmail.getText().toString().trim();
+            final String email=editTextEmail.getText().toString().trim();
 
             if(checkNull() && isValidMail(email)) {
                 alert.setMessage("Signing In");
@@ -93,11 +96,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
-                                    alert.dismiss();
-                                    startActivity(new Intent(LoginActivity.this, MainScreen.class));
-                                    Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
-                                    finish();
+                                    String token = FirebaseInstanceId.getInstance().getToken();
+                                    userN = new User();
+                                    reference.child(userN.getUserID(email)).child("token").setValue(token).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(LoginActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
+                                            alert.dismiss();
+                                            startActivity(new Intent(LoginActivity.this, MainScreen.class));
+                                            Toast.makeText(LoginActivity.this, "!!Email is Verified!!", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                    });
+
                                 }
                                 else
                                     Toast.makeText(LoginActivity.this, "ERROR: "+"USER LOGIN FAILURE", Toast.LENGTH_SHORT).show();

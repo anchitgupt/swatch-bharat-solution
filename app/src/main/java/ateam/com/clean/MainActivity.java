@@ -23,6 +23,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ArrayAdapter<String> arrayAdapter;
     List<String> list;
     String statere;
+    User userN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String date = editTextPhone.getText().toString().trim();
             String state = spinnerState.getSelectedItem().toString().trim();
             String city = spinnerCity.getSelectedItem().toString().trim();
-            User userN = new User();
+            userN = new User();
             final String userID = userN.getUserID(email);
             final String[] user_id = email.split("@");
             if (checkNull()) {
@@ -123,13 +126,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
+                                                    String token = FirebaseInstanceId.getInstance().getToken();
+                                                    userN = new User();
+                                                    reference.child(userN.getUserID(email)).child("token").setValue(token).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                                alert.dismiss();
+                                                                Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
+                                                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                                                startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
-                                                    if (task.isSuccessful()) {
-                                                        alert.dismiss();
-                                                        Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
-                                                        user = FirebaseAuth.getInstance().getCurrentUser();
-                                                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                                                    }
+                                                        }
+                                                    });
+
                                                 }
                                             })
                                             .addOnFailureListener(MainActivity.this,

@@ -82,10 +82,12 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
     String mImageName;
     ProgressDialog progressDialog;
     User userN;
-    String statusIssue = "false";
     AdminData adminData;
     String day, month, year;
     Uri photoURI;
+    Bitmap  mBitmap;
+    ByteArrayOutputStream mByteOutputStream;
+    byte[] bytes;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -166,14 +168,23 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
             else {
                 isphotoTaken = true;
 
-                Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                /*Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 mImageName = new SimpleDateFormat("dd_MM_yy_HH_mm_ss",Locale.getDefault()).format(new Date());
                 File file = new File(Environment.getExternalStorageDirectory(), mImageName+".jpg");
                 photoURI = FileProvider.getUriForFile(this,
                         this.getApplicationContext().getPackageName() + ".provider", file);
                 m_intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(m_intent, CAMERA_REQUEST);
-                }
+                startActivityForResult(m_intent, CAMERA_REQUEST);*/
+                Intent intent = new Intent();
+                intent.setAction("android.media.action.IMAGE_CAPTURE");
+                intent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                //filename = getFilename();
+                File file = new File(Environment.getExternalStorageDirectory(), mImageName+".jpg");
+                photoURI = FileProvider.getUriForFile(this,
+                        this.getApplicationContext().getPackageName() + ".provider", file);
+                startActivityForResult(intent, CAMERA_REQUEST);
+
+            }
 
             }
         }
@@ -204,12 +215,17 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
         } else if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 
-            Bitmap  mBitmap = null;
-            try {
+            mBitmap = (Bitmap) data.getExtras().get("data");
+            mByteOutputStream = new ByteArrayOutputStream();
+            Bitmap.createBitmap(mBitmap).compress(Bitmap.CompressFormat.JPEG, 100, mByteOutputStream);
+            bytes = mByteOutputStream.toByteArray();
+            //imageView.setImageBitmap(mBitmap);
+
+           /* try {
                   mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             imageView.setImageBitmap(mBitmap);
 
@@ -247,23 +263,10 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
     public void storeImageInCloud() {
 
-        //filenaming in storage
-            /*
-            getting the token as @key for each complaint
-             */
         key = mDatabase.push().getKey();
-        // url = data.getStringExtra("url");
-        /*location = data.getStringExtra("location");
-        time = data.getStringExtra("time");*/
-        //bytes = data.getByteArrayExtra("image");
-
-
         Log.e(TAG, "onSuccess: " + location);
         Log.e(TAG, "onSuccess: " + time);
         Log.e(TAG, "key :" + key);
-            /*
-            setting the time for each photo that is taken
-             */
         userN = new User();
         mStorageref = FirebaseStorage.getInstance().getReference(userN.getUserID(user.getEmail())).child(key).child(mImageName+".jpg");
         /**
@@ -277,7 +280,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         progressDialog.show();
         progressDialog.setCanceledOnTouchOutside(false);
 
-        UploadTask uploadTask = mStorageref.putFile(photoURI);
+        UploadTask uploadTask = mStorageref.putBytes(bytes);
         uploadTask.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -291,7 +294,7 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                 *
                 * User data updated
                  */
-                issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
+                issueData = new IssueData(user.getEmail(),String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), "Pending");
 
                 mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child("new").child(key).setValue(issueData)
                         .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
@@ -322,9 +325,9 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
                         mBundle,
                         time,
                         editDes.getText().toString(),
-                        "",
+                        "Not Assigned",
                         user.getEmail(),
-                        "false",
+                        "Pending",
                         "no"
                 );
 
@@ -345,10 +348,6 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
 
                     }
                 });
-
-
-
-
 
                 //Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
 

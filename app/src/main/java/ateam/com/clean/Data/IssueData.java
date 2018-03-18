@@ -7,6 +7,7 @@ package ateam.com.clean.Data;
 public class IssueData {
 
     String
+    email,
     url,
     latlng,
     location,
@@ -23,7 +24,8 @@ public class IssueData {
         return latlng;
     }
 
-    public IssueData(String url, String latlng, String location, String key, String type, String time, String desc, String status) {
+    public IssueData(String email, String url, String latlng, String location, String key, String type, String time, String desc, String status) {
+        this.email = email;
         this.url = url;
         this.latlng = latlng;
         this.location = location;
@@ -60,5 +62,9 @@ public class IssueData {
 
     public String getType() {
         return type;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

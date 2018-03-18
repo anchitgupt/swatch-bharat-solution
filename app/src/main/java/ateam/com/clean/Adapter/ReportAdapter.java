@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.ByteArrayOutputStream;
@@ -63,20 +70,32 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
         Log.e(TAG, "POSITION: " + position);
         Log.e(TAG, "onBindViewHolder: " + issueData.getUrl());
+        holder.reportImageView.setVisibility(View.GONE);
+        holder.reportStatusValue.setText(issueData.getStatus());
+            Glide.with(context).load(issueData.getUrl()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    holder.progressBar.setVisibility(View.GONE);
+                    holder.reportImageView.setVisibility(View.VISIBLE);
+                    return false;
+                }
 
-            Glide.with(context).load(issueData.getUrl()).into(holder.reportImageView);
-       // Glide.with(context).asBitmap().to
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.progressBar.setVisibility(View.GONE);
+                    holder.reportImageView.setVisibility(View.VISIBLE);
+                    return false;
+                }
+            }).into(holder.reportImageView);
+            holder.reportImageView.setVisibility(View.VISIBLE);
+
+           // Glide.with(context).asBitmap().to
             holder.reportKeyValue.setText(issueData.getKey());
             holder.reportLocationValue.setText(issueData.getLatlng() + "\n" + issueData.getLocation());
             holder.reportTypeValue.setText(issueData.getType());
             holder.reportTimeValue.setText(issueData.getTime());
-            if (Objects.equals(issueData.getStatus(), "false")) {
-                holder.reportStatusValue.setText("Pending");
-            } else {
-                holder.reportStatusValue.setText("Resolved");
-                holder.reportStatusValue.setTextColor(Color.GREEN);
-            }
             holder.reportDescriptionValue.setText(issueData.getDesc());
+
             holder.reportLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -84,6 +103,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
                 }
             });
+
             holder.reportImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -108,7 +128,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-//        Log.e(TAG, "getItemCount: "+issueDataList.size() );
         return issueDataList.size();
     }
 
@@ -117,6 +136,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
         public ImageView reportImageView;
         public LinearLayout reportLinearLayout;
         public CardView cardView;
+        public ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -130,6 +150,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             cardView = itemView.findViewById(R.id.report_card);
             reportStatusValue = itemView.findViewById(R.id.report_status_value);
             reportLocationValue.setMovementMethod(new ScrollingMovementMethod());
+            progressBar = itemView.findViewById(R.id.progress);
         }
     }
 }
