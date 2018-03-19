@@ -44,5 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:11.8.0'
     compile 'com.google.android.gms:play-services-location:11.8.0'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

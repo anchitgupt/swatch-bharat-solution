@@ -150,6 +150,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ViewHolder
             cardView = itemView.findViewById(R.id.report_card);
             reportStatusValue = itemView.findViewById(R.id.report_status_value);
             reportLocationValue.setMovementMethod(new ScrollingMovementMethod());
+            reportStatusValue.setMovementMethod(new ScrollingMovementMethod());
             progressBar = itemView.findViewById(R.id.progress);
         }
     }

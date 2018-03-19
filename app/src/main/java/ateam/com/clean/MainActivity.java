@@ -39,6 +39,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ateam.com.clean.Data.Count;
 import ateam.com.clean.Data.User;
 import ateam.com.clean.Data.UserData;
 
@@ -109,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 //final String id = reference.push().getKey();
-
-                final UserData userData = new UserData(userID, username, date, city, state, email);
+                Count count = new Count(0,0,0,0);
+                final UserData userData = new UserData(userID, username, date, city, state, email, count);
 
                 alert.setMessage("Registering...");
                 alert.show();

@@ -45,6 +45,7 @@ import ateam.com.clean.Data.User;
 import ateam.com.clean.Feed.FeedActivity;
 import ateam.com.clean.Geofence.*;
 import ateam.com.clean.Map.DustbinLocator;
+import ateam.com.clean.Profile.UserProfile;
 
 public class MainScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener, View.OnClickListener {
@@ -237,6 +238,9 @@ public class MainScreen extends AppCompatActivity
         }
         else if(id == R.id.menu_item_feed){
             Intent intent = new Intent(getApplicationContext(), FeedActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.profile){
+            Intent intent = new Intent(getApplicationContext(), UserProfile.class);
             startActivity(intent);
         }
 

@@ -9,7 +9,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-˙   <!--geofence-->
+    ˙
+    <!-- geofence -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -67,6 +68,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".Map.DustbinLocator"
             android:label="@string/title_activity_dustbin_locator" />
@@ -88,16 +90,19 @@
             android:name=".Feed.FeedActivity"
             android:label="Some Nearby Feeds"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--testing-->
+        <!-- testing -->
 
         <activity
             android:name=".Geofence.MainActivity"
             android:label="@string/app_name">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
 
         <receiver
@@ -109,13 +114,19 @@
             android:name=".Geofence.GeofenceTransitionsJobIntentService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service
-            android:name=".Notifications.FirebaseCloudNotify">
+        <service android:name=".Notifications.FirebaseCloudNotify">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".Profile.UserProfile"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Certificate.Certificate"
+            android:parentActivityName=".MainScreen"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

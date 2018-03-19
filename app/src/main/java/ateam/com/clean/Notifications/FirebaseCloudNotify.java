@@ -13,10 +13,12 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import ateam.com.clean.Certificate.Certificate;
 import ateam.com.clean.Geofence.MainActivity;
 import ateam.com.clean.R;
 import ateam.com.clean.Report;
@@ -87,29 +89,48 @@ public class FirebaseCloudNotify extends FirebaseMessagingService {
         }
 
         // Create an explicit content Intent that starts the main Activity.
-        Intent notificationIntent = new Intent(getApplicationContext(), Report.class);
+
         String s = notificationDetails.toLowerCase();
         String mBundle = null;
-        if(s.contains("garbage")){ mBundle ="garbage";}
-        else if(s.contains("pit")){mBundle ="pit";}
-        else if(s.contains("log")){mBundle ="log";}
-        else if(s.contains("child")){mBundle ="child";}
+        String type ="Garbage";
+        if(s.contains("garbage")){ mBundle ="garbage"; type ="Garbage";}
+        else if(s.contains("pit")){mBundle ="pit"; type ="Pit Holes";}
+        else if(s.contains("log")){mBundle ="log"; type ="Pit Holes";}
+        else if(s.contains("child")){mBundle ="child";type ="Pit Holes";}
         else {mBundle ="garbage";}
+
+
+        String number = notificationBody.replaceAll("[^0-9]", "");
         
-        notificationIntent.putExtra("type",mBundle);
+
         // Construct a task stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        Intent notificationIntent;
+        if(notificationDetails.contains("Congratulations")){
+            notificationIntent = new Intent(getApplicationContext(), Certificate.class);
+//            Toast.makeText(this, "Congratulations", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "sendNotification: Created certificate");
+                notificationIntent.putExtra("type",type);
+                notificationIntent.putExtra("number",number);
+            // Add the main Activity to the task stack as the parent.
+            stackBuilder.addParentStack(ateam.com.clean.Certificate.Certificate.class);
+            // Push the content Intent onto the stack.
+            stackBuilder.addNextIntent(notificationIntent);
 
-        // Add the main Activity to the task stack as the parent.
-        stackBuilder.addParentStack(ateam.com.clean.MainActivity.class);
+        }else {
+            notificationIntent = new Intent(getApplicationContext(), Report.class);
+            notificationIntent.putExtra("type",mBundle);
+            // Add the main Activity to the task stack as the parent.
+            stackBuilder.addParentStack(ateam.com.clean.MainActivity.class);
 
-        // Push the content Intent onto the stack.
-        stackBuilder.addNextIntent(notificationIntent);
+
+            // Push the content Intent onto the stack.
+            stackBuilder.addNextIntent(notificationIntent);
+        }
 
         // Get a PendingIntent containing the entire back stack.
         PendingIntent notificationPendingIntent =
                 stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_ONE_SHOT);
-
 
         // Get a notification builder that's compatible with platform versions >= 4
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
@@ -123,7 +144,6 @@ public class FirebaseCloudNotify extends FirebaseMessagingService {
                 .setColor(Color.RED)
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(notificationBody))
-                //TODO to do test .setGroup()
                 .setSound(RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION))
                 .setContentTitle(notificationDetails)
                 .setContentText(notificationBody)
@@ -131,6 +151,7 @@ public class FirebaseCloudNotify extends FirebaseMessagingService {
                 //.setContentText(getString(R.string.geofence_transition_notification_text))
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setContentIntent(notificationPendingIntent);
+
 
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 
@@ -145,4 +166,5 @@ public class FirebaseCloudNotify extends FirebaseMessagingService {
         // Issue the notification
         mNotificationManager.notify(0, builder.build());
     }
+
 }

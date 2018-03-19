@@ -36,7 +36,7 @@
             <LinearLayout
                 android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -51,6 +51,7 @@
                     android:id="@+id/report_status_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
                     android:textColor="#ff0000"
                     />
             </LinearLayout>
