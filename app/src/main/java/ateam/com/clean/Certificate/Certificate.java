@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,8 @@ public class Certificate extends AppCompatActivity {
         findViewById(R.id.view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(Certificate.this, "Certificate Saved on your Device", Toast.LENGTH_SHORT).show();
+                Log.e("Cretificate", "onClick: ");
                 takeScreenshot();
             }
         });
