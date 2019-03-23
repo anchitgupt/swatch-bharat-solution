@@ -265,77 +265,84 @@ public class MapReport extends AppCompatActivity implements View.OnClickListener
         uploadTask.addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//TODO: changes done
+                final Uri[] downloadurl = {null};
+                 taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        downloadurl[0] = task.getResult();
+                        Log.e(TAG, "onSuccess: " + location);
+                        Log.e(TAG, "onSuccess: " + time);
 
-                final Uri downloadurl = taskSnapshot.getDownloadUrl();
+                        /*
+                         *
+                         * User data updated
+                         */
+                        issueData = new IssueData(String.valueOf(downloadurl[0]), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
 
-                Log.e(TAG, "onSuccess: " + location);
-                Log.e(TAG, "onSuccess: " + time);
+                        mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
+                                .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isComplete()) {
+                                            Log.e(TAG, "KEY VALUE ADDED");
+                                            Toast.makeText(MapReport.this, "User Value Updated", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(MapReport.this, new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "onFailure: " + e.getMessage());
+                                    }
+                                });
 
-                /*
-                *
-                * User data updated
-                 */
-                issueData = new IssueData(String.valueOf(downloadurl), latlng,location, key, mBundle, time,editDes.getText().toString(), statusIssue);
+                        /**
+                         *
+                         * Admin data updated
+                         */
+                        adminData = new AdminData(
+                                String.valueOf(downloadurl[0]),
+                                latlng,
+                                location,
+                                key,
+                                mBundle,
+                                time,
+                                editDes.getText().toString(),
+                                "",
+                                user.getEmail(),
+                                "false"
+                        );
 
-                mDatabase.child(userN.getUserID(user.getEmail())).child(mBundle).child(key).setValue(issueData)
-                        .addOnCompleteListener(MapReport.this, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isComplete()) {
-                                    Log.e(TAG, "KEY VALUE ADDED");
-                                    Toast.makeText(MapReport.this, "User Value Updated", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .addOnFailureListener(MapReport.this, new OnFailureListener() {
+                        FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(adminData)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.e(TAG, "onComplete: admin data");
+                                            Toast.makeText(MapReport.this, "Admin received Data", Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.e(TAG, "onFailure: " + e.getMessage());
+                                Log.e(TAG, "onFailure: no admin data" + e.getMessage());
+
                             }
                         });
 
-                /**
-                 *
-                 * Admin data updated
-                 */
-                adminData = new AdminData(
-                        String.valueOf(downloadurl),
-                        latlng,
-                        location,
-                        key,
-                        mBundle,
-                        time,
-                        editDes.getText().toString(),
-                        "",
-                        user.getEmail(),
-                        "false"
-                );
 
-                FirebaseDatabase.getInstance().getReference(mBundle).child("new").child(key).setValue(adminData)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.e(TAG, "onComplete: admin data");
-                                    Toast.makeText(MapReport.this, "Admin received Data", Toast.LENGTH_SHORT).show();
+                        //Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
 
-                                }
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: no admin data" + e.getMessage());
-
+                        Toast.makeText(MapReport.this, "FILE UPLODED SUCESSFULLY", Toast.LENGTH_SHORT).show();
+                        finish();
+                        Log.e(TAG, "onSuccess: FILE UPLOADED SUCESSFULLY");
+                        progressDialog.dismiss();
                     }
-                });
+                });//getUploadSessionUri();
 
 
-                //Log.e(TAG, downloadurl.toString(), new Throwable("ERROR GETTING THE URL"));
-
-                Toast.makeText(MapReport.this, "FILE UPLODED SUCESSFULLY", Toast.LENGTH_SHORT).show();
-                finish();
-                Log.e(TAG, "onSuccess: FILE UPLOADED SUCESSFULLY");
-                progressDialog.dismiss();
 
             }
         }).addOnFailureListener(this, new OnFailureListener() {

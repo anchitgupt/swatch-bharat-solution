@@ -14,11 +14,11 @@
                     android:title="Pit Holes" />
                 <item
                     android:id="@+id/menu_item_log"
-                    android:icon="@drawable/ic_child_care_black_24dp"
+                    android:icon="@drawable/ic_delete_black_24dp"
                     android:title="Water Logging" />
                 <item
                     android:id="@+id/menu_item_child"
-                    android:icon="@drawable/ic_child_care_black_24dp"
+                    android:icon="@drawable/childlabour"
                     android:title="Child Labour" />
             </menu>
         </item>

@@ -17,7 +17,7 @@
         android:layout_width="101dp"
         android:layout_height="64dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/cjicon1"
+        app:srcCompat="@drawable/appicon"
 
         />
 
