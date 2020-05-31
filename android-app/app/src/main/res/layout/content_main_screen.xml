@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ateam.com.clean.MainScreen"
+    tools:showIn="@layout/app_bar_main_screen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_garbage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutGarbage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewGarbage"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/garbage" />
+
+                    <TextView
+                        android:id="@+id/textViewGarbage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Garbage"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_pit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutPit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewPit"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/pit" />
+
+                    <TextView
+                        android:id="@+id/textViewPit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Pit Holes"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/water_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutLog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewLog"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/sewage1" />
+
+                    <TextView
+                        android:id="@+id/textViewLog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Water Log"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            app:cardElevation="5dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutChild"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageViewChild"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
+                        android:layout_margin="5dp"
+                        app:srcCompat="@drawable/childlabour" />
+
+                    <TextView
+                        android:id="@+id/textViewChild"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="0.95"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Child Labour"
+                        android:textAlignment="center"
+                        android:textSize="30sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

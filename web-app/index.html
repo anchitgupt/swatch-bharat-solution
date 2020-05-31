@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" content="width=device-width">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Clean India & Safe India</title>
+  <link rel="shortcut icon" type="image/png" href="images/appicon.png" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-green.min.css" />
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- dialog -->
+
+  <dialog id="loginDialog" class="mdl-dialog">
+    <h4 class="mdl-dialog__title">Sign In</h4>
+    <div class="mdl-dialog__content">
+      <p id="loginError"></p>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="loginEmail">
+        <label class="mdl-textfield__label" for="sample3">Email...</label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="password" id="loginPassword">
+        <label class="mdl-textfield__label" for="sample3">Password...</label>
+      </div>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button id="loginBtn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">SIGN IN</button>
+      <div id="loginProgress" class="mdl-spinner mdl-js-spinner is-active"></div>
+    </div>
+  </dialog>
+
+
+  <!-- LOGIN COVER-->
+  <div class="login-cover">
+    <div class="mdl-spinner mdl-js-spinner is-active"></div>
+  </div>
+
+  <!-- header-->
+  <div>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout-icon"></div>
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout__title">Clean India & Safe India
+      	<span class="page_title-span"> | </span>
+          <span class="page_title-span"> Log In </span>
+          </span>
+          <div class="mdl-layout-spacer"></div>
+          <nav class="mdl-navigation">
+          </nav>
+        </div>
+      </header>
+
+      <!--header end -->
+
+
+      <div>
+        <h2 class=" w3-margin-right w3-margin-left" style="text-shadow:1px 1px 0 #444 ; text-align: center; font-family: 'Lato', sans-serif;">Choose the issue</h2>
+        <!-- card-->
+        <div class="w3-row-padding" style="margin-top: 50px;">
+          <div class="w3-quarter">
+            <div class="w3-card-4  w3-margin-top w3-center card" style="width:100%">
+              <img src="images/garbage.svg" alt="Norway" style="width:100%">
+              <div class="w3-container w3-center">
+                <p style="font-size:20px;">Garbage</p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <button id="garbage" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+     			Sign In
+     		   </button>
+              </div>
+            </div>
+          </div>
+          <div class="w3-quarter">
+            <div class="w3-card-4  w3-margin-top w3-center card" style="width:100%">
+              <img src="images/pithole.png" alt="Norway" style="width:100%">
+              <div class="w3-container w3-center">
+                <p style="font-size:20px;">Pit Holes</p>
+              </div>
+              <div i class="mdl-card__actions mdl-card--border">
+                <button id="pit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+     			Sign In
+     		   </button>
+              </div>
+            </div>
+          </div>
+          <div class="w3-quarter">
+            <div class="w3-card-4  w3-margin-top w3-center card" style="width:100%">
+              <img src="images/sewage.jpg" alt="Norway" style="width:100%">
+              <div class="w3-container w3-center">
+                <p style="font-size:20px;">Sewage</p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <button id="log" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+     			Sign In
+     		   </button>
+              </div>
+            </div>
+          </div>
+          <div class="w3-quarter">
+            <div class="w3-card-4  w3-margin-top w3-center card" style="width:100%">
+              <img src="images/childLabour.jpg" alt="Norway" style="width:133%">
+              <div class="w3-container w3-center">
+                <p style="font-size:20px;">Child Labour</p>
+              </div>
+              <div class="mdl-card__actions mdl-card--border">
+                <button id="child" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+     			Sign In
+     		   </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- card-->
+
+
+      <!-- Firebase Script -->
+      <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+      <script src="main.js"></script>
+</body>
+
+
+<footer class="w3-container w3-teal w3-center w3-margin-top">
+  <p>Copyright © Clean India & Safe India. All Rights Reserved | Contact Us: +91 90000 00000. </p>
+</footer>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Issues">
+            <menu>
+                <item
+                    android:id="@+id/menu_item_grabage"
+                    android:icon="@drawable/ic_delete_black_24dp"
+                    android:title="Garbage" />
+                <item
+                    android:id="@+id/menu_item_pit"
+                    android:icon="@drawable/pit"
+                    android:title="Pit Holes" />
+                <item
+                    android:id="@+id/menu_item_log"
+                    android:icon="@drawable/ic_delete_black_24dp"
+                    android:title="Water Logging" />
+                <item
+                    android:id="@+id/menu_item_child"
+                    android:icon="@drawable/childlabour"
+                    android:title="Child Labour" />
+            </menu>
+        </item>
+    </group>
+    <item android:title="Miscellaneous">
+        <menu>
+            <item
+                android:id="@+id/menu_item_dustbin"
+                android:title="Dustbins" />
+        </menu>
+    </item>
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>
