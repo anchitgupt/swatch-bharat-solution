@@ -6,6 +6,23 @@ This project presents a technology that validates user’s complaints which are 
 
 In this we have made end to end solution using the serverless arhcitecture using firebase.
 
+## Screen Shot
+
+### Website
+<div style="text-align:center">
+ <img src="docs/images/website.png"/>
+ <img src="docs/images/webreportlist.png"/>
+ <img src="docs/images/reportstats.png"/>
+</div>
+
+<!-- ### Mobile
+
+<div style="text-align:center">
+ <img src="docs/images/website.png"/>
+ <img src="docs/images/webreportlist.png"/>
+ <img src="docs/images/reportstats.png"/>
+</div> -->
+
 
 ## Contributors:
 
